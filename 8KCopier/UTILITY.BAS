@@ -1,0 +1,118 @@
+
+10 ' 8K Game Level Track Copier For Speedlock Vendor Formatted Disks
+20 ' Created By The ARGONAUT (C) 1990 JacesofT
+30 ' FDC Routines Written In 1988, Updated 1989
+90 CALL &BBFF:CALL &BC02:PAPER 0:PEN 1:BORDER 0:INK 0,0:INK 1,25:MODE 2:CLEAR
+95 IF HIMEM<&A000 THEN 3000
+96 MEMORY &8FFF:LOAD"8klevelc.bin",&9600
+100 source=&9B0B:dest=&9B0C:datafull=&9600:vendfull=&9604:copy=&9623
+110 FOR i=1 TO 80:LOCATE i,1:PRINT"*";:LOCATE 81-i,25:PRINT"*";:NEXT
+120 FOR i=2 TO 24:LOCATE 80,i:PRINT"*";:LOCATE 1,26-i:PRINT"*";:NEXT
+130 LOCATE 12,3:PRINT"THE ARGONAUT'S SPEEDLOCK GAME LEVEL DISC COPIER."
+140 LOCATE 15,6:PRINT"1) Format Disk"
+150 LOCATE 15,8:PRINT"2) Copy Game Level Data"
+160 LOCATE 15,10:PRINT"3) Catalogue A Disk"
+170 LOCATE 22,12:PRINT">>> Please Select An Option <<<"
+180 LOCATE 4,23:PRINT"Source Drive : ";:IF source THEN PRINT"B" ELSE PRINT"A"
+190 LOCATE 57,23:PRINT"Destination Drive : ";:IF destination THEN PRINT"B" ELSE PRINT"A"
+200 LOCATE 24,23:PRINT"D To Toggle Destination Drive."
+210 LOCATE 19,23:IF PEEK(source) THEN PRINT"B" ELSE PRINT"A"
+220 LOCATE 77,23:IF PEEK(dest) THEN PRINT"B" ELSE PRINT"A"
+240 a$=INKEY$:IF UPPER$(a$)="D" THEN POKE (dest),PEEK(dest) XOR 1
+250 IF a$<"1" OR a$>"3" THEN 210
+260 a=VAL(a$):ON a GOSUB 280,2000,420:WINDOW 2,79,2,24:CLS:GOTO 130
+270 ' Format Disk In Protected Form
+280 'Format Disk In A Protected Format
+290 LOCATE 20,15:PRINT"Format Disk To :-"
+300 LOCATE 20,17:PRINT"A: DATA FORMAT"
+310 LOCATE 20,19:PRINT"B: CPM FORMAT"
+330 a$=INKEY$:a$=UPPER$(a$):IF a$<"A" OR a$>"B" THEN 330
+340 WINDOW 2,79,14,24:CLS:PRINT"Insert Disk To Be Formatted In Drive ";:IF PEEK(dest) THEN PRINT"B:"; ELSE PRINT"A:";
+350 PRINT" Then Press SPACE"
+360 WHILE INKEY$<>" ":WEND
+370 CLS
+380 IF a$="A" THEN CALL datafull
+390 IF a$="B" THEN CALL vendfull
+410 WINDOW 1,80,1,25:RETURN
+420 ' Catalogue A Disk
+430 WINDOW 2,79,2,24:CLS:IF PEEK(source)=0 THEN |A ELSE |B
+440 PRINT"Catalogue On Drive ";:IF PEEK(source) THEN PRINT"B:" ELSE PRINT"A:"
+460 IF PEEK(source) THEN a$="B" ELSE a$="A":|DRIVE,@a$
+465 |DRIVE,@a$:CAT
+470 PRINT"
+
+Press A Key.":CALL &BB18:CLS:WINDOW 1,80,1,25:RETURN
+480 WINDOW 2,79,2,24:CLS:PRINT"
+
+ Insert Source Disk Into Drive ";:IF PEEK(source) THEN PRINT"B:"; ELSE PRINT"A:";:PRINT" Press SPACE"
+490 WHILE INKEY$<>" ":WEND
+500 CLS:PRINT"
+
+   Please Select A File To Encrypt : Cursor Keys To Move , Copy To Select."
+510 PRINT"   L To Log In A New Disk , Q To Return To Main Menu"
+520 IF source THEN a$="B" ELSE a$="A":|DRIVE,@a$
+530 WINDOW 2,79,5,24:CLS:CAT
+540 x=1:y=1
+550 GOSUB 650
+560 IF INKEY(0)>-1 THEN GOSUB 670
+570 IF INKEY(2)>-1 THEN GOSUB 720
+580 IF INKEY(8)>-1 THEN GOSUB 760
+590 IF INKEY(1)>-1 THEN GOSUB 800
+600 IF INKEY(9)>-1 THEN GOSUB 840:WINDOW 2,79,5,24
+610 IF INKEY(67)>-1 THEN CLS:RETURN
+620 IF INKEY(36)>-1 THEN 530
+630 GOTO 560
+640 END
+650 b$="":FOR xx=1 TO 12:LOCATE ((x-1)*20)+xx,y+3:b$=b$+COPYCHR$(#0):NEXT xx
+660 LOCATE ((x-1)*20)+1,y+3:PRINT "";b$;"";:RETURN
+670 'Move Up
+680 IF y=1 THEN RETURN
+690 LOCATE ((x-1)*20)+1,y+2:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+700 LOCATE ((x-1)*20)+1,y+3:PRINT b$:y=y-1
+710 GOTO 650
+720 'Move Down
+730 IF y=16 THEN RETURN
+740 LOCATE ((x-1)*20)+1,y+4:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+750 LOCATE ((x-1)*20)+1,y+3:PRINT b$:y=y+1:GOTO 650
+760 'Move Left
+770 IF x=1 THEN RETURN
+780 LOCATE ((x-2)*20)+1,y+3:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+790 LOCATE ((x-1)*20)+1,y+3:PRINT b$:x=x-1:GOTO 650
+800 'Move Right
+810 IF x=4 THEN RETURN
+820 LOCATE ((x)*20)+1,y+3:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+830 LOCATE ((x-1)*20)+1,y+3:PRINT b$:x=x+1:GOTO 650
+840 'Encrypt Appropriate File
+850 WINDOW 2,79,20,24:CLS
+860 IF source THEN a=66 ELSE a=65
+870 IF destination THEN b=66 ELSE b=65
+880 POKE filename,a:POKE filename+1,ASC(":")
+890 POKE savename,b:POKE savename+1,ASC(":")
+900 CLS:PRINT"
+
+ Encrypt File : ";b$;" Are You Sure ?"
+910 a$=INKEY$:a$=UPPER$(a$):IF a$="N" THEN RETURN
+920 IF a$<>"Y" AND a$<>"N" THEN 910
+930 PRINT"
+
+
+ Enter SAVENAME (Press Return For Default)"
+940 INPUT a$
+950 IF source<>destination THEN POKE &BB18,&C9 ELSE POKE &BB18,&CF
+960 IF a$="" THEN savename$=b$
+970 IF LEN(a$)>12 THEN 930
+980 FOR i=1 TO 12:POKE filename+1+i,ASC(MID$(b$,i,1)):NEXT
+990 a$=a$+SPACE$(12)
+1000 FOR i=1 TO 12:POKE savename+1+i,ASC(MID$(savename$,i,1)):NEXT
+1010 CLS:WINDOW 5,75,20,20:|ENCRYPT:CLS:POKE &BB18,&CF:RETURN
+2000 ' Attempt Game Level Copy
+2010 CLS:PRINT"This Will Corrupt This Program And Once Copied Can Never Return Do You Wish":PRINT"
+
+To Carry On ? "
+2020 a$=INKEY$:IF a$="" THEN 2020
+2030 a$=UPPER$(a$):IF a$<>"Y" AND a$<>"N" THEN 2020
+2040 IF a$="N" THEN RETURN
+2050 CLS:PRINT"Switching To Copier......"
+2060 CALL copy
+3000 CLS:PRINT"Switch Som ROMS Off And Try Again..."
+3010 GOTO 3010
