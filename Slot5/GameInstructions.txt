@@ -61,35 +61,35 @@ The wins are calculated as follows :-
                               =========
 
  +------------+---------------+--------------------------+
- | SAME      | SAME      | ??????  |  40 P |
+ | SAME       | SAME          | ??????           | 40 P  |
  +------------+---------------+------------------+-------+
- | CHERRY     | CHERRY      | CHERRY  |  60 p |
+ | CHERRY     | CHERRY        | CHERRY           | 60 p  |
  +------------+---------------+------------------+-------+
- | APPLE      | APPLE      | APPLE  |  60 P |
+ | APPLE      | APPLE         | APPLE            | 60 P  |
  +------------+---------------+------------------+-------+
- | ORANGE     | ORANGE      | ORANGE  |  60 P |
+ | ORANGE     | ORANGE        | ORANGE           | 60 P  |
  +------------+---------------+------------------+-------+
- | LEMON      | LEMON      | LEMON  |  80 P |
+ | LEMON      | LEMON         | LEMON            | 80 P  |
  +------------+---------------+------------------+-------+
- | PLUM      | PLUM      | PLUM  |  80 P |
+ | PLUM       | PLUM          | PLUM             | 80 P  |
  +------------+---------------+------------------+-------+
- | PEAR      | PEAR      | PEAR  | 100 P |
+ | PEAR       | PEAR          | PEAR             | 100 P |
  +------------+---------------+------------------+-------+
- | MELON      | MELON      | MELON  | 100 P |
+ | MELON      | MELON         | MELON            | 100 P |
  +------------+---------------+------------------+-------+
- | POUND      | POUND      | POUND  | 100 P |
+ | POUND      | POUND         | POUND            | 100 P |
  +------------+---------------+------------------+-------+
- | PEACH      | PEACH      | PEACH  | 120 P |
+ | PEACH      | PEACH         | PEACH            | 120 P |
  +------------+---------------+------------------+-------+
- | BELL      | BELL      | BELL  | 160 P |
+ | BELL       | BELL          | BELL             | 160 P |
  +------------+---------------+------------------+-------+
- | JACESOFT   | JACESOFT      | JACESOFT  | 180 P |
+ | JACESOFT   | JACESOFT      | JACESOFT         | 180 P |
  +------------+---------------+------------------+-------+
- | GRAPES     | GRAPES      | GRAPES  | 200 P |
+ | GRAPES     | GRAPES        | GRAPES           | 200 P |
  +------------+---------------+------------------+-------+
- | GOLD      | GOLD      | GOLD  | 240 P |
+ | GOLD       | GOLD          | GOLD             | 240 P |
  +------------+---------------+------------------+-------+
- | BAGS      | BAGS      | BAGS  | 480 P |
+ | BAGS       | BAGS      | BAGS  | 480 P |
  +------------+---------------+------------------+-------+
 
 If you win you can gamble your winnings for a larger amount but you 
@@ -102,11 +102,11 @@ Numbers 1 - 3 will light 1 - 3 Lights, a ' ? ' will light A random
 number of lights, from 0 - 3
 
 If you have lit enough lights for a gaming function, you can gamble it 
-for the next (Higher) Game by playing HI / LO, at
+for the next (Higher) Game by playing HI/LO, at
 
 If you lose the gamble you will lose the gaming function !!!
 
-If the reel stops on MEGA CASH you will be taken all the way to the 
+If the reel stops on MEGA CASH you will be taken all the way to the 
 top for RepeaIf you have lit enough lights for a gaming
 
 To Finish A gambling session press W
@@ -137,14 +137,14 @@ SKILLCASH :
 
 NUMBERS RUN :
 
- A rather complicated one.  The middle 3 reels (2, 3, 4) will
- Nudge Any direction.  You must press the HOLD Buttons when a
+ A rather complicated one.  The middle 3 reels (2, 3, 4) will
+ Nudge Any direction.  You must press the HOLD Buttons when a
  Number appears on the Middle Win Line Only.  These number will
  be converted to cash. (Think Quickly)
 
 CASHPOT :
 
- You will win what ever money is in the CASH POT this can be
+ You will win what ever money is in the CASH POT this can be
  anything between 0 P to £2.40
 
 HI LO CASH :
