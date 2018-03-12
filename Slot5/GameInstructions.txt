@@ -1,0 +1,166 @@
+              Project : Slot 5 (Fruit Machine Simulator)
+
+                        Author : Jason Brooks
+
+                       Started : 19th June 1990
+
+                    Finished : 20th November 1990
+
+                              Revision :
+
+
+
+                            Instructions.
+                            =============
+
+Welcome to Slot 5 fruit machine simulator.
+
+This simulator is unlike those currently seen on the market since this 
+has 5 Reels rather than 3.  These reels are set out
+
+
+ +-------+-------+-------+
+ | | | |
+ | | | |     <===  Win Line One
+ | | | |
+ +-------+-------+-------+-------+
+  Reel 1 | | | |
+  | | | |     <===  Win Line Two
+  | | | |
+  +-------+-------+-------+-------+
+   Reel 2 | | | |
+   | | | |   <===  Win Line 3
+   | | | |
+   +-------+-------+-------+
+                         Reel 3  Reel 4  Reel 5
+
+As you can see you have 3 win lines - So how can you lose !
+
+Keys :
+
+ P  - STARTS GAME
+ RETURN  - START / GAMBLE / STOP
+ C , T  - COLLECT / CANCEL
+ 1, 2, 3, 4, 5 - HOLD REELS 1, 2, 3, 4, 5
+ W  - WALK AWAY WITH WHAT WINNINGS YOU HAVE
+ H  - HIGHER
+ L  - LOWER
+
+When the game has loaded the reels will spin by themselves to jumble 
+them up (Just like a reel fruit machine does when you
+
+The bank will lend you £1.00 That's not alot considering the machine 
+is 20p a go !
+
+Pressing RETURN will spin the reels, If the HOLD lights flash you have 
+the choice of holding any / all or none of the reels, p
+
+The wins are calculated as follows :-
+
+                              WIN TABLE
+                              =========
+
+ +------------+---------------+--------------------------+
+ | SAME      | SAME      | ??????  |  40 P |
+ +------------+---------------+------------------+-------+
+ | CHERRY     | CHERRY      | CHERRY  |  60 p |
+ +------------+---------------+------------------+-------+
+ | APPLE      | APPLE      | APPLE  |  60 P |
+ +------------+---------------+------------------+-------+
+ | ORANGE     | ORANGE      | ORANGE  |  60 P |
+ +------------+---------------+------------------+-------+
+ | LEMON      | LEMON      | LEMON  |  80 P |
+ +------------+---------------+------------------+-------+
+ | PLUM      | PLUM      | PLUM  |  80 P |
+ +------------+---------------+------------------+-------+
+ | PEAR      | PEAR      | PEAR  | 100 P |
+ +------------+---------------+------------------+-------+
+ | MELON      | MELON      | MELON  | 100 P |
+ +------------+---------------+------------------+-------+
+ | POUND      | POUND      | POUND  | 100 P |
+ +------------+---------------+------------------+-------+
+ | PEACH      | PEACH      | PEACH  | 120 P |
+ +------------+---------------+------------------+-------+
+ | BELL      | BELL      | BELL  | 160 P |
+ +------------+---------------+------------------+-------+
+ | JACESOFT   | JACESOFT      | JACESOFT  | 180 P |
+ +------------+---------------+------------------+-------+
+ | GRAPES     | GRAPES      | GRAPES  | 200 P |
+ +------------+---------------+------------------+-------+
+ | GOLD      | GOLD      | GOLD  | 240 P |
+ +------------+---------------+------------------+-------+
+ | BAGS      | BAGS      | BAGS  | 480 P |
+ +------------+---------------+------------------+-------+
+
+If you win you can gamble your winnings for a larger amount but you 
+could end up losing it all ! If you do not wish t
+
+On some of the fruits, you will find numbers on them these will add to 
+the lights on the function side screen !
+
+Numbers 1 - 3 will light 1 - 3 Lights, a ' ? ' will light A random 
+number of lights, from 0 - 3
+
+If you have lit enough lights for a gaming function, you can gamble it 
+for the next (Higher) Game by playing HI / LO, at
+
+If you lose the gamble you will lose the gaming function !!!
+
+If the reel stops on MEGA CASH you will be taken all the way to the 
+top for RepeaIf you have lit enough lights for a gaming
+
+To Finish A gambling session press W
+
+Gaming Functions :-
+===================
+
+MYSTERY :
+
+ This function can give you any of the other games or CASH
+ It can be a worthwhile one to take.
+
+SPINAWIN :
+ 
+ This will make the reels stop on any win every time you press 
+ START.  It will repeat itself 1 to 3 times before asking for a
+
+CASHFALLS :
+ 
+ A coin grid will be drawn on the screen with 1-4 win lines lit.
+ You must press the STOP button when the coins are falling down 
+ screen.
+
+SKILLCASH :
+ 
+ Another one with a cash matrix.  You must whit the STOP button 
+ when the lights Hit the TOP of the screen.
+
+NUMBERS RUN :
+
+ A rather complicated one.  The middle 3 reels (2, 3, 4) will
+ Nudge Any direction.  You must press the HOLD Buttons when a
+ Number appears on the Middle Win Line Only.  These number will
+ be converted to cash. (Think Quickly)
+
+CASHPOT :
+
+ You will win what ever money is in the CASH POT this can be
+ anything between 0 P to £2.40
+
+HI LO CASH :
+
+ Another with a coin matrix.  To win the money on each line you
+ must guess correctly whether the reel number is going to be
+ higher or Lower !
+
+NUDGES :
+
+ Always found on conventional gaming machines.
+ This will move the reels (Up or Down) to the number in the
+ nudge pot and will try nudge the reel to give you the highest
+ WIN possible.
+
+REPEATERS :
+
+ Cash repeaters.  This will give you either £2.40 or £4.80
+ To win £4.80 you must press STOP when the light flashes N
