@@ -16,23 +16,23 @@
 Welcome to Slot 5 fruit machine simulator.
 
 This simulator is unlike those currently seen on the market since this 
-has 5 Reels rather than 3.  These reels are set out
+has 5 Reels rather than 3.  These reels are set out
 
 
  +-------+-------+-------+
- | | | |
- | | | |     <===  Win Line One
- | | | |
+ |       |       |       |
+ |       |       |       |     <===  Win Line One
+ |       |       |       |
  +-------+-------+-------+-------+
-  Reel 1 | | | |
-  | | | |     <===  Win Line Two
-  | | | |
-  +-------+-------+-------+-------+
-   Reel 2 | | | |
-   | | | |   <===  Win Line 3
-   | | | |
-   +-------+-------+-------+
-                         Reel 3  Reel 4  Reel 5
+  Reel 1 |       |       |       |
+         |       |       |       |     <===  Win Line Two
+         |       |       |       |
+         +-------+-------+-------+-------+
+         Reel 2  |       |       |       |
+                 |       |       |       |   <===  Win Line 3
+                 |       |       |       |
+                 +-------+-------+-------+
+                  Reel 3  Reel 4  Reel 5
 
 As you can see you have 3 win lines - So how can you lose !
 
@@ -46,14 +46,14 @@ Keys :
  H  - HIGHER
  L  - LOWER
 
-When the game has loaded the reels will spin by themselves to jumble 
-them up (Just like a reel fruit machine does when you
+When the game has loaded the reels will spin by themselves to jumble 
+them up (Just like a reel fruit machine does when you
 
-The bank will lend you £1.00 That's not alot considering the machine 
+The bank will lend you £1.00 That's not alot considering the machine 
 is 20p a go !
 
 Pressing RETURN will spin the reels, If the HOLD lights flash you have 
-the choice of holding any / all or none of the reels, p
+the choice of holding any / all or none of the reels.
 
 The wins are calculated as follows :-
 
@@ -89,16 +89,16 @@ The wins are calculated as follows :-
  +------------+---------------+------------------+-------+
  | GOLD       | GOLD          | GOLD             | 240 P |
  +------------+---------------+------------------+-------+
- | BAGS       | BAGS      | BAGS  | 480 P |
+ | BAGS       | BAGS          | BAGS.            | 480 P |
  +------------+---------------+------------------+-------+
 
-If you win you can gamble your winnings for a larger amount but you 
-could end up losing it all ! If you do not wish t
+If you win you can gamble your winnings for a larger amount but you 
+could end up losing it all ! 
 
 On some of the fruits, you will find numbers on them these will add to 
 the lights on the function side screen !
 
-Numbers 1 - 3 will light 1 - 3 Lights, a ' ? ' will light A random 
+Numbers 1 - 3 will light 1 -3 Lights,a ' ? ' will light a random 
 number of lights, from 0 - 3
 
 If you have lit enough lights for a gaming function, you can gamble it 
