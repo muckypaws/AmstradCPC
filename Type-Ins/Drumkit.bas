@@ -1,0 +1,114 @@
+1 ' AMSTRAD DRUMKIT
+2 ' J Keneally
+3 ' Devon
+10 MODE 2:GOSUB 200:GOSUB 630
+20 EVERY itime GOSUB 750
+30 imd=0
+40 a$="":LOCATE 35,3:PRINT"Beat:";ix:WHILE a$="":a$=INKEY$
+50 LOCATE 13+ix,16-irythm(ix,ichan)
+60 PRINT CHR$(143+imd);:imd=(imd+1) AND 1
+70 WEND
+80 a$=UPPER$(a$):IF a$="S" OR a$="F" THEN GOSUB 800:GOTO 40
+90 IF a$="C" THEN GOSUB 820:GOTO 40
+100 IF a$="L" THEN GOSUB 840:GOTO 40
+110 IF a$="W" THEN GOSUB 910:GOTO 40
+120 IF a$="R" THEN GOSUB 1000:GOTO 40
+130 LOCATE 13+ix,16-irythm(ix,ichan)
+140 i=ASC(a$):PRINT CHR$(159+16*(i=243 OR (i=242)));:
+150 i1=irythm(ix,ichan)
+160 irythm(ix,ichan)=i1-(i=241)*(i1>0)+(i=240)*(i1<11)
+170 ix=ix+(i=243)*(ix<47)-(i=242)*(ix>0)
+180 GOTO 40
+190 REM
+200 REM Initialise
+210 DEFINT i:DIM irythm(47,3),itone(11),ienv(11),ient(11),noise(11),name$(11)
+220 RESTORE 230
+230 DATA 0,1,0,15,Wood Block
+240 DATA 18,5,3,13,Guiro
+250 DATA 80,3,0,0,Cowbell
+260 DATA 0,4,0,2,Hi Hat
+270 DATA 150,6,4,1,Cymbal
+280 DATA 200,3,1,13,Snare
+290 DATA 480,1,2,10,Tom 4
+300 DATA 375,1,2,15,Tom 3
+310 DATA 325,1,2,6,Tom 2
+320 DATA 240,1,2,3,Tom 1
+330 DATA 870,3,1,31,Bass Drum
+340 FOR i=1 TO 11
+350 READ itone(i),ienv(i),ient(i),noise(i),name$(i)
+360 NEXT i
+370 FOR i=0 TO 47:READ irythm(i,0):NEXT
+380 DATA 10,10,6,6,11,0,11,0,5,0,6,5,11,0,11,4
+390 DATA 10,10,6,6,11,0,11,0,5,0,6,5,11,0,11,4
+400 DATA 10,10,6,6,11,0,11,0,5,0,6,5,11,0,11,4
+410 irythm(5,1)=1:irythm(16,1)=2:irythm(34,1)=3:irythm(36,1)=3
+420 irythm(0,1)=3:FOR i=44 TO 47:irythm(i,1)=3:NEXT
+430 irythm(2,2)=1:irythm(19,2)=1:irythm(20,2)=1
+440 itime=6:ichan=0:ix=0
+450 ind=0
+460 ENT 1,1,-100,1,5,25,3
+470 ENT -2,1,-75,1,4,25,3
+480 ENT -3,1,4,2,1,-8,2,1,4,2
+490 ENT -4,4,4,1,4,-4,1
+500 ENV 1,1,15,2,5,-3,4
+510 ENV 2,1,15,1,15,-1,2
+520 ENV 3,1,15,1,4,-2,2,7,-1,4
+530 ENV 4,7,2,1,14,-1,4
+540 ENV 5,1,15,1,15,-1,8
+550 ENV 6,2,7,1,1,0,20,14,-1,10
+560 LOCATE 12,18:PRINT"S,F=Slow/Fast. C=Channel. L=Load. W=save .R=Reset."  
+570 LOCATE 23,21:PRINT STRING$(21,143)
+580 LOCATE 23,25:PRINT STRING$(21,143)
+590 FOR i=1 TO 3:LOCATE 22,21+i:PRINT CHR$(143);TAB(44);CHR$(143):NEXT i
+600 LOCATE 26,23:PRINT"AMSTRAD DRUMKIT"
+610 RETURN
+620 REM
+630 REM Write frame
+640 ifs=16:name$(0)="Silence"
+650 FOR i=0 TO 11:LOCATE 2,ifs-i
+660 PRINT name$(i);TAB(13);STRING$(48,159)
+670 NEXT i
+680 FOR i=0 TO 47:LOCATE 13+i,ifs-irythm(i,ichan)
+690 PRINT CHR$(143);:NEXT i
+700 PLOT 95,398-16*ifs:DRAWR 386,0
+710 DRAWR 0,194:DRAWR -386,0:DRAWR 0,-194
+720 LOCATE 20,3:PRINT"Channel No.";ichan
+730 RETURN
+740 REM
+750 REM Play rythm
+760 FOR iz1=0 TO 2
+770 iz=irythm(ind,iz1):IF iz<>0 THEN SOUND 129+iz1,itone(iz),1000,0,ienv(iz),ient(iz),noise(iz)
+780 NEXT
+790 ind=(ind+1) MOD 48:RETURN
+800 IF a$="S"  THEN itime=itime+1 ELSE itime=itime+(itime>1)
+810 EVERY itime GOSUB 750:RETURN
+820 ichan=(ichan+1) MOD 3:GOSUB 630:ix=0:RETURN
+830 REM
+840 REM Load
+850 GOSUB 960
+860 CLS#1:PRINT#1,"Loading."
+870 OPENIN"!rythm"
+880 FOR i=0 TO 47:INPUT #9,irythm(i,0),irythm(i,1),irythm(i,2)
+890 NEXT i:CLOSEIN:EVERY itime GOSUB 750
+900 CLS#1:GOSUB 630:ix=0:RETURN
+910 REM Save
+920 GOSUB 960:OPENOUT"!rythm"
+930 CLS#1:PRINT#1,"Saving."
+940 FOR i=0 TO 47:FOR i1=0 TO 2:PRINT #9,irythm(i,i1):NEXT i1:NEXT i
+950 CLOSEOUT:CLS#1:EVERY itime GOSUB 750:RETURN
+960 i=REMAIN(0):WINDOW#1,65,80,10,15
+970 PRINT#1,"Load tape,":PRINT#1,"press a key."
+980 WHILE INKEY$<>"":WEND:WHILE INKEY$="":WEND
+990 RETURN
+1000 REM Reset Channel Routine
+1010 j=-1:i=REMAIN(0):WINDOW#1,65,80,10,15:CLS#1
+1020 PRINT#1,"Reset Channel":PRINT#1,"Number (0/1/2) ?"
+1030 WHILE j=-1
+1040 IF INKEY(64)=0 THEN j=1
+1050 IF INKEY(65)=0 THEN j=2
+1060 IF INKEY(32)=0 THEN j=0
+1070 WEND
+1080 CLS#1
+1090 FOR k=0 TO 47:irythm(k,j)=0:NEXT k:GOSUB 630
+1100 EVERY itime GOSUB 750:RETURN
+1110 REM End of Reset
