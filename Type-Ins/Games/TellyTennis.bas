@@ -1,0 +1,83 @@
+10 'telly tennis
+20 '(c) 1985
+30 '
+40 DEFINT a-z
+50 comp=1
+60 ENV 1,=11,20,=9,5000
+70 MODE 1:INK 0,10:BORDER 10:INK 1,26:INK 2,18:INK 3,0
+80 GOSUB 710
+90 GOSUB 150
+100 GOSUB 330
+110 GOSUB 420
+120 LOCATE 13,1:PRINT USING"#### ";score1;
+130 LOCATE 35,1:PRINT USING"#### ";score2;
+140 GOTO 100
+150 PEN 2
+160 x(1)=3:y(1)=5
+170 x(2)=37:y(2)=22
+180 edge$=CHR$(233):edge2$=STRING$(2,207)
+190 LOCATE 1,3:PRINT STRING$(39,edge$):PRINT STRING$(39,edge$)
+200 FOR i=1 TO 19
+210 PRINT edge2$;TAB(38);edge2$
+220 NEXT
+230 PRINT STRING$(39,edge$):PRINT STRING$(39,edge$);
+240 WINDOW #1,3,37,5,23
+250 CLS#1
+260 SYMBOL 240,0,60,126,126,126,126,60,0
+270 bat$="|"+CHR$(8)+CHR$(10)+"|"
+280 clr$=" "+CHR$(8)+CHR$(10)+" "
+290 ball$=CHR$(240)
+300 PEN 3
+310 LOCATE 2,1:PRINT"Player 1 :    0";:LOCATE 24,1:PRINT"Player 2 :    0";
+320 RETURN
+330 n=INT(RND*2):CLS#1:scored=0
+340 PEN 3
+350 FOR i=1 TO 2:LOCATE x(i),y(i):PRINT bat$;:NEXT
+360 ON n GOTO 390
+370 xb=21:dx=1
+380 GOTO 400
+390 xb=19:dx=-1
+400 yb=12:dy=INT(RND*3)-1
+410 RETURN
+420 GOSUB 600
+430 oxb=xb:oyb=yb
+440 GOSUB 500
+450 IF note>0 THEN SOUND 129,note,50,15,1
+460 LOCATE oxb,oyb:PRINT" ";
+470 LOCATE xb,yb:PRINT ball$
+480 IF scored=0 THEN 420
+490 RETURN
+500 LOCATE xb+dx,yb+dy:ch$=COPYCHR$(#0)
+510 note=0
+520 IF ch$=" " THEN xb=xb+dx:yb=yb+dy:RETURN
+530 IF ch$="|" THEN dx=2-dx-2:dy=INT(RND*3)-1:note=200:RETURN
+540 IF ch$=LEFT$(edge2$,1) THEN 570
+550 IF ch$=edge$ THEN dy=2-dy-2:note=250
+560 RETURN
+570 IF dx>0 THEN score1=score1+1 ELSE score2=score2+1
+580 scored=1:note=2000
+590 RETURN
+600 p(1)=(INKEY(69)>=0)+(INKEY(72)>=0)+ABS((INKEY(71)>=0)+(INKEY(73)>=0))*2
+610 IF comp=1 THEN p(2)=ABS(y(2)<yb)*2+(y(2)>yb):GOTO 630
+620 p(2)=(INKEY(4)>=0)+(INKEY(48)>=0)+ABS((INKEY(5)>=0)+(INKEY(49)>=0))*2
+630 PEN 3
+640 FOR i=1 TO 2
+650 LOCATE x(i),y(i)+p(i):ch$=COPYCHR$(#0)
+660 IF ch$=" " THEN LOCATE x(i),y(i):PRINT clr$;:y(i)=y(i)+ROUND(p(i)/2)
+670 LOCATE x(i),y(i):PRINT bat$;
+680 NEXT
+690 PEN 1
+700 RETURN
+710 PEN 2:PRINT:PRINT TAB(15)"Ping-Pong":PRINT TAB(15)"---------"
+720 PEN 3:PRINT:PRINT TAB(14)"To move bats :
+730 PRINT:PRINT:PEN 1
+740 PRINT" Player1       Player 2       Direction":PRINT
+750 PRINT"    A              6              UP"
+760 PRINT"    Z              5              DOWN":PRINT
+770 PEN 3:PRINT:PRINT TAB(14)"Or joysticks"
+780 PRINT:PRINT:PRINT:PRINT
+790 PEN 2
+800 PRINT TAB(6)"Select <1> or <2> players
+810 i$=INKEY$:IF i$<>"1" AND i$<>"2" THEN 810
+820 IF i$="1" THEN comp=1 ELSE comp=0
+830 MODE 1:RETURN
