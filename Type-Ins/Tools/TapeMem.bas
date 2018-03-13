@@ -1,0 +1,7 @@
+10 FOR t=&A000 TO &A017
+20 READ a$:POKE t,VAL("&"+a$)
+30 NEXT t:CALL &A000
+40 DATA 21,08,a0,0e,fc,cd,16
+50 DATA bd,3e,c9,32,cb,bc,11
+60 DATA 40,00,21,ff,ab,df,16
+70 DATA a0,06,c0
