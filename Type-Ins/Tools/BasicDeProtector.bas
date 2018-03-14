@@ -51,8 +51,7 @@
 490 IF destination=1 THEN POKE &A216,0 ELSE POKE &A216,LEN(dest$)
 500 POKE &A224,VAL("&"+part1$)
 510 POKE &A225,VAL("&"+part$)
-520 IF destination=2 AND source=2 THEN POKE &A214,&C9:PRINT"When loaded the copier will stop and you must insert your destination disc
-and type CALL &A215" ELSE POKE &A214,0
+520 IF destination=2 AND source=2 THEN POKE &A214,&C9:PRINT"When loaded the copier will stop and you must insert your destination discand type CALL &A215" ELSE POKE &A214,0
 540 PRINT"You will see some weird characters on the screen PLEASE DO NOT WORRY"
 545 PRINT"Now type NEW and CALL &A200
 550 END
