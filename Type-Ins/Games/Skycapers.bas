@@ -107,8 +107,7 @@
 1070 FOR t=5 TO 25:LOCATE 32,t:PRINT a$(1);:NEXT
 1080 FOR t=5 TO 25 STEP 4:LOCATE 32,t:PRINT a$(2);:NEXT
 1090 PLOT 1,340,0:DRAW 636,340,0:DRAW 636,399,0:DRAW 1,399,0:DRAW 1,340,0
-1100 PAPER 1:LOCATE 2,2:PEN 3:PRINT"1UP";sc%:LOCATE 30,2:PRINT"HI";hi%:PEN 2:LOCATE 2,3:PRINT"#";poun%:LOCATE 30,3:PRINT"$";doll%:LO
-CATE 18,2:PRINT"Men";lives%
+1100 PAPER 1:LOCATE 2,2:PEN 3:PRINT"1UP";sc%:LOCATE 30,2:PRINT"HI";hi%:PEN 2:LOCATE 2,3:PRINT"#";poun%:LOCATE 30,3:PRINT"$";doll%:LOCATE 18,2:PRINT"Men";lives%
 1110 PEN 3:FOR t=1 TO screen%:cloudx(t)=INT(1+26*RND(1)):cloudy(t)=INT(8+5*RND(0)):LOCATE cloudx(t),cloudy(t):PRINT cloud$:NEXT
 1120 RETURN
 1130 '**** Title Screen ****
@@ -140,12 +139,10 @@ CATE 18,2:PRINT"Men";lives%
 1390 i=0:REM **** Make sure instructions don't come back unless requested ****
 1400 MODE 1:PEN 0:PAPER 1:CLS:LOCATE 14,1:PRINT"Instructions"
 1410 LOCATE 14,2:PRINT"------------"
-1420 PRINT:PRINT"Once upon a time in the city of London acertain female politician who will      remain unamed, became Prime Ministe
-r of jolly old England.
+1420 PRINT:PRINT"Once upon a time in the city of London acertain female politician who will      remain unamed, became Prime Minister of jolly old England.
 1430 PRINT"Suddenly jolly old England became not sojolly as the # went down against the $.
 1440 PRINT"As this happened the people of England  became bankrupt and started commiting   suicide."
-1450 PRINT:PRINT"You guide Fred & Bill the tax collectorsleft & right with your joystick  to try to bounce the people up to SUPER BA
-ILIFFat the top of the screen."
+1450 PRINT:PRINT"You guide Fred & Bill the tax collectorsleft & right with your joystick  to try to bounce the people up to SUPER BAILIFFat the top of the screen."
 1460 CLEAR INPUT
 1470 PRINT"If you do this you get the tax the      person owes you if you don't before the #  reaches 0 then you lose a life."
 1480 PRINT:PRINT:PRINT:PRINT"        press a key to start"
