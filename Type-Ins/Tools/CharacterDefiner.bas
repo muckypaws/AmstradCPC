@@ -133,22 +133,15 @@
 1330 LOCATE 3,7:PRINT SPC(38);STRING$(38,8);
 1340 PEN 2
 1350 INPUT " Filename :";flnm$
-1360 IF LEN(flnm$)>8 THEN PEN 3:PRINT"
-
- Too long!":GOTO 1330
+1360 IF LEN(flnm$)>8 THEN PEN 3:PRINT"Too long!":GOTO 1330
 1370 IF LOWER$(RIGHT$(flnm$,4))<>".chr" THEN flnm$=flnm$+".chr"
 1380 IF f=0 THEN SAVE flnm$,b,newmem!,oldmem!-newmem! ELSE IF f=1 THEN LOAD flnm$
 1390 SOUND 1,15,5,15
 1400 PEN 1
-1410 IF ef=0 AND f=0 THEN PRINT"
-
- Saved :"; ELSE IF ef=0 AND f=1 THEN PRINT"
-
- Loaded :";
+1410 IF ef=0 AND f=0 THEN PRINT"Saved :"; ELSE IF ef=0 AND f=1 THEN PRINT"Loaded :";
 1420 IF ef=0 THEN PEN 3:PRINT UPPER$(flnm$):PRINT
 1430 PEN 2
-1440 IF ef=0 AND f=0 THEN PRINT" Remember to use ";:PEN 1:PRINT"SYMBOL AFTER 32";:PEN 2:PRINT USING"&";"BEFORE  ";:PEN 1:PRINT"LOAD"
-;:PEN 2:PRINT"ing ";UPPER$(flnm$);" from your program."
+1440 IF ef=0 AND f=0 THEN PRINT" Remember to use ";:PEN 1:PRINT"SYMBOL AFTER 32";:PEN 2:PRINT USING"&";"BEFORE  ";:PEN 1:PRINT"LOAD";:PEN 2:PRINT"ing ";UPPER$(flnm$);" from your program."
 1450 PEN 1
 1460 LOCATE 7,20
 1470 PEN 2:PRINT"    [";
