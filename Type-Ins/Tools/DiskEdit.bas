@@ -34,26 +34,14 @@
 340 PRINT CHR$(22);CHR$(0)
 350 WINDOW 1,80,6,25
 360 WINDOW #2,1,80,5,1
-370 INPUT"
-
-Please enter Track number 0-39";track 
-380 IF track<0 OR track>39 THEN PRINT"
-
-Error Re-try":GOTO 370
-390 INPUT"
-
-Please enter Sector number 0 - 8";sector
-400 IF sector<0 OR sector>8 THEN PRINT"
-
-Error Re-try":GOTO 390
-410 INPUT"
-
-Which Format D - Data  or  C - CPM  or  I - IBM  or  V - Vendor";format1$
+370 INPUT"Please enter Track number 0-39";track 
+380 IF track<0 OR track>39 THEN PRINT"Error Re-try":GOTO 370
+390 INPUT"Please enter Sector number 0 - 8";sector
+400 IF sector<0 OR sector>8 THEN PRINT"Error Re-try":GOTO 390
+410 INPUT"Which Format D - Data  or  C - CPM  or  I - IBM  or  V - Vendor";format1$
 420 format$=LEFT$(format1$,1)
 430 format$=LOWER$(format$)
-440 IF format$<>"d" AND format$<>"c" AND format$<>"i" AND format$<>"v" THEN PRINT"
-
-Error Re-enter":GOTO 410
+440 IF format$<>"d" AND format$<>"c" AND format$<>"i" AND format$<>"v" THEN PRINT"Error Re-enter":GOTO 410
 450 IF format$="d" THEN addition=&C1:LOCATE #3,1,3:PRINT #3,"Format DATA"
 460 IF format$="c" THEN addition=&41:LOCATE #3,1,3:PRINT #3,"Format CP/M"
 470 IF format$="i" THEN addition=&1:LOCATE #3,1,3:PRINT #3,"Format IBM"
@@ -90,8 +78,7 @@ Error Re-enter":GOTO 410
 780 ' X axis is variable  
 790 x=6:y=9:x1=8
 800 byte=&80
-810 CLS#2:LOCATE x,y:PRINT"[":LOCATE x+3,y:PRINT"]":LOCATE #3,20,3:PRINT#3,"Track";track:LOCATE #3,40,3:PRINT#3,"Sector";sector-addi
-tion:LOCATE #3,60,3:PRINT#3,"Mode ";mo$
+810 CLS#2:LOCATE x,y:PRINT"[":LOCATE x+3,y:PRINT"]":LOCATE #3,20,3:PRINT#3,"Track";track:LOCATE #3,40,3:PRINT#3,"Sector";sector-addition:LOCATE #3,60,3:PRINT#3,"Mode ";mo$
 820 keypress=INKEY(8)
 830 IF keypress=0 THEN 990
 840 IF keypress=128 THEN 1840
