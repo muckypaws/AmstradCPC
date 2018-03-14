@@ -34,8 +34,7 @@
 340 x1=x+xa:y1=y+ya
 350 IF x1=3 OR x1=38 THEN xa=-xa
 360 GOSUB 540
-370 IF y1=24 AND x1>bx+1 AND x1<bx+6 THEN ya=-ya:y1=y1-2:SOUND 130,44,8,7,1,1:a=((x>bx+5)OR(x<bx+2)):IF a=-1 THEN xa=xa*a:x1=x1+xa:y
-1=y1+1
+370 IF y1=24 AND x1>bx+1 AND x1<bx+6 THEN ya=-ya:y1=y1-2:SOUND 130,44,8,7,1,1:a=((x>bx+5)OR(x<bx+2)):IF a=-1 THEN xa=xa*a:x1=x1+xa:y1=y1+1
 380 IF y1=25 THEN LOCATE x,y:PRINT" ":GOTO 500
 390 GOSUB 250
 400 t=TEST((16*x1)-1,-(16*y1)-1)
