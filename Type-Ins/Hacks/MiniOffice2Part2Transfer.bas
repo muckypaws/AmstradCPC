@@ -1,0 +1,38 @@
+10 ' Please do not use this routine for piracy because PIRACY IS THEFT
+20 ' MINI OFFICE II TAPE-DISC TRANSFER ROUTINE WRITTEN BY J.BROOKS 1987
+30 ' REWIND MINI-OFFICE II TO THE START OF SIDE 1 THE WORD-PROCESSOR
+40 ' INSERT THE DISK WITH THE OTHER MINI OFFICE FILES ON AND RUN THIS ROUTINE.
+50 ' THEN GO AWAY AGAIN HAVE ANOTHER COFFEE OR DO SOMETHING ELSE FOR HALF AN HOUR
+60 ' THIS PART COPIES THE - GRAPHICS PACKAGE, COMMUNICATIONS MODULE AND LABEL PRINTER
+70 '  ************************************************************************
+80 '  ****** To Transfer The Convert Files Use Bonzo's Meddler Option 1 ******
+90 '  ****** Relocation Off.  N.B. There will be a couple of .BAK files ******
+100 ' ****** Produced Do not worry and delete them                      ******
+110 ' ************************************************************************
+120 ' You do not have to type in lines 10-70
+130 ' Graphics copier
+140 :
+150 RESTORE:FOR i=&BE80 TO &BEB3:READ a$:POKE i,VAL("&"+a$):NEXT
+160 |DISC:|TAPE.IN:MODE 1:ON ERROR GOTO 370:LOAD"!",&C000:MEMORY &1FFF
+170 LOAD"!",&8000:SAVE"graph1",b,&8000,&200,&8000:CALL &8000:GOSUB 380
+180 LOAD"!",32901:POKE &8085,136:POKE &8086,144:POKE &8087,0:POKE &8088,0:CALL 32905
+190 SAVE"graph2",b,&9088,6144:GOSUB 380:a$="GRAPH3":POKE &BE92,6:FOR i=1 TO 6
+200 POKE &BEAA+i,ASC(MID$(a$,i,1)):NEXT:POKE &BE9D,&C9:POKE &BE9E,&53:CALL &BC6B,1:CALL &BE80
+210 GOSUB 380
+220 :
+230 ' Communications module copier
+240 :
+250 LOAD"!",&C000:LOAD"!",&8000:SAVE"comms1",b,&8000,&200:CALL &8000:GOSUB 380
+260 LOAD"!",&2000:POKE &2002,0:POKE &2003,0:POKE &2000,0:POKE &2001,108:CALL &2004
+270 SAVE"comms2",b,&6C00,(5*2048),&6C00:GOSUB 380
+280 :
+290 MODE 1:' Label Printer Copier Routine
+300 :
+310 LOAD"!",&C000:LOAD"!",&8000:SAVE"labels1",b,&8000,&200:CALL &8000:GOSUB 380
+320 LOAD"!",&2000:POKE &2000,0:POKE &2001,127:POKE &2002,0:POKE &2003,0:CALL &2004
+330 SAVE"labels2",b,&7F00,(5*2048):GOSUB 380
+340 MODE 1:PRINT"That's all for Know folks!":CALL &BB18:MODE 1:LIST
+350 DATA 6,0,11,00,c0,cd,77,bc,21,0,50,cd,83,bc,cd,7a,bc,6,7,21,ab,be,cd,8c,bc,21
+360 DATA 00,50,11,17,17,1,0,0,3e,0,cd,98,bc,cd,8f,bc,c9,53,50,52,45,41,44,37,0,0
+370 RESUME NEXT
+380 FOR i=0 TO 5000:NEXT:RETURN
