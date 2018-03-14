@@ -7,11 +7,9 @@
 70 ' Ensure 2 K Buffer
 80 OPENOUT"dummy":MEMORY HIMEM-1:CLOSEOUT
 90 ' Initialize Variables
-100 DEFINT a-z:DIM col(15,2):down$=CHR$(10)+CHR$(10):template$="0123456789":l=1:k=1:m=50:block$=CHR$(24)+" "+CHR$(24):boxy=0:brush=1
-:block1$=CHR$(24)+"*"+CHR$(24)
+100 DEFINT a-z:DIM col(15,2):down$=CHR$(10)+CHR$(10):template$="0123456789":l=1:k=1:m=50:block$=CHR$(24)+" "+CHR$(24):boxy=0:brush=1:block1$=CHR$(24)+"*"+CHR$(24)
 110 opp=1:opp1=1
-120 cursor.left=8:cursor.right=1:cursor.down=2:cursor.up=0:spray=21:colour.left=71:colour.right=63:sprite.save=60:sprite.load=36:spr
-ite.clear=16
+120 cursor.left=8:cursor.right=1:cursor.down=2:cursor.up=0:spray=21:colour.left=71:colour.right=63:sprite.save=60:sprite.load=36:sprite.clear=16
 130 cut=68:toggle.spr.box=51:toggle.grid=43:paste=27
 140 ' Set Up Screen Mode & Colours
 150 '
@@ -19,8 +17,7 @@ ite.clear=16
 170 MODE 2:PRINT"Which Mode Do You Wish To Design Your Sprites In ? ";:GOSUB 550:md=VAL(b$):IF md>2 THEN 170
 180 l=2:x=md*20+16:mo=2^(2-md)
 190 ' Select Sprite Grid Size
-200 CLS:LOCATE 1,1:PRINT"Enter Grid Size":PRINT:PRINT"Maximum = ";m:LOCATE 1,5:PRINT"X - Length =   ";CHR$(8);CHR$(8);:GOSUB 550:gri
-dx=VAL(b$):IF gridx>m OR gridx<1 THEN 200
+200 CLS:LOCATE 1,1:PRINT"Enter Grid Size":PRINT:PRINT"Maximum = ";m:LOCATE 1,5:PRINT"X - Length =   ";CHR$(8);CHR$(8);:GOSUB 550:gridx=VAL(b$):IF gridx>m OR gridx<1 THEN 200
 210 LOCATE 1,7:PRINT"Y - Length =   ";CHR$(8);CHR$(8);:GOSUB 550:gridy=VAL(b$):IF gridy>m OR gridy<1 THEN 210
 220 ' Set Up Array For Sprite Cell
 230 '
@@ -164,17 +161,13 @@ dx=VAL(b$):IF gridx>m OR gridx<1 THEN 200
 1610 IF brush<>0 THEN GOSUB 990
 1620 NEXT by,bx:bx=obx:by=oby:GOSUB 1580:RETURN
 1630 ' Load In Sprite Data
-1640 MODE 1:PEN 1:INK 1,26:INK 0,0:PAPER 0:CLS:template$="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-:":l=16:PRINT"Please Enter File Name
- To Load Data":PRINT:PRINT"> ";:GOSUB 1160:GOSUB 590
+1640 MODE 1:PEN 1:INK 1,26:INK 0,0:PAPER 0:CLS:template$="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-:":l=16:PRINT"Please Enter File Name To Load Data":PRINT:PRINT"> ";:GOSUB 1160:GOSUB 590
 1650 MODE 1:PRINT"Thank you. LOADing : ";b$
 1660 OPENIN b$
 1670 INPUT #9,nmd
-1680 IF md<>nmd THEN MODE 1:PRINT"This Sprite Is Not For The Current Mode";CHR$(7):PRINT:PRINT"Do You Wish To Convert It To Mode";md
-:GOSUB 1790:IF an=0 THEN md=nmd
-1690 INPUT #9,ngridx,ngridy:IF ngridy>gridy OR ngridx>gridx THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy:GO
-TO 1710
-1700 IF ngridx<gridx OR ngridy<gridy THEN MODE 2:PRINT"This Sprite Is Smaller Than Your Template":PRINT:PRINT"Do You Wish to Convert
- it":GOSUB 1790:IF an=0 THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy
+1680 IF md<>nmd THEN MODE 1:PRINT"This Sprite Is Not For The Current Mode";CHR$(7):PRINT:PRINT"Do You Wish To Convert It To Mode";md:GOSUB 1790:IF an=0 THEN md=nmd
+1690 INPUT #9,ngridx,ngridy:IF ngridy>gridy OR ngridx>gridx THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy:GOTO 1710
+1700 IF ngridx<gridx OR ngridy<gridy THEN MODE 2:PRINT"This Sprite Is Smaller Than Your Template":PRINT:PRINT"Do You Wish to Convert it":GOSUB 1790:IF an=0 THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy
 1710 ' Get Ink Colours
 1720 FOR i=0 TO 15:INPUT #9,col(i,1),col(i,2):NEXT
 1730 ' Get Sprite
@@ -244,11 +237,9 @@ TO 1710
 70 ' Ensure 2 K Buffer
 80 OPENOUT"dummy":MEMORY HIMEM-1:CLOSEOUT
 90 ' Initialize Variables
-100 DEFINT a-z:DIM col(15,2):down$=CHR$(10)+CHR$(10):template$="0123456789":l=1:k=1:m=50:block$=CHR$(24)+" "+CHR$(24):boxy=0:brush=1
-:block1$=CHR$(24)+"*"+CHR$(24)
+100 DEFINT a-z:DIM col(15,2):down$=CHR$(10)+CHR$(10):template$="0123456789":l=1:k=1:m=50:block$=CHR$(24)+" "+CHR$(24):boxy=0:brush=1:block1$=CHR$(24)+"*"+CHR$(24)
 110 opp=1:opp1=1
-120 cursor.left=8:cursor.right=1:cursor.down=2:cursor.up=0:spray=21:colour.left=71:colour.right=63:sprite.save=60:sprite.load=36:spr
-ite.clear=16
+120 cursor.left=8:cursor.right=1:cursor.down=2:cursor.up=0:spray=21:colour.left=71:colour.right=63:sprite.save=60:sprite.load=36:sprite.clear=16
 130 cut=68:toggle.spr.box=51:toggle.grid=43:paste=27
 140 ' Set Up Screen Mode & Colours
 150 '
@@ -256,8 +247,7 @@ ite.clear=16
 170 MODE 2:PRINT"Which Mode Do You Wish To Design Your Sprites In ? ";:GOSUB 550:md=VAL(b$):IF md>2 THEN 170
 180 l=2:x=md*20+16:mo=2^(2-md)
 190 ' Select Sprite Grid Size
-200 CLS:LOCATE 1,1:PRINT"Enter Grid Size":PRINT:PRINT"Maximum = ";m:LOCATE 1,5:PRINT"X - Length =   ";CHR$(8);CHR$(8);:GOSUB 550:gri
-dx=VAL(b$):IF gridx>m OR gridx<1 THEN 200
+200 CLS:LOCATE 1,1:PRINT"Enter Grid Size":PRINT:PRINT"Maximum = ";m:LOCATE 1,5:PRINT"X - Length =   ";CHR$(8);CHR$(8);:GOSUB 550:gridx=VAL(b$):IF gridx>m OR gridx<1 THEN 200
 210 LOCATE 1,7:PRINT"Y - Length =   ";CHR$(8);CHR$(8);:GOSUB 550:gridy=VAL(b$):IF gridy>m OR gridy<1 THEN 210
 220 ' Set Up Array For Sprite Cell
 230 '
@@ -401,17 +391,13 @@ dx=VAL(b$):IF gridx>m OR gridx<1 THEN 200
 1610 IF brush<>0 THEN GOSUB 990
 1620 NEXT by,bx:bx=obx:by=oby:GOSUB 1580:RETURN
 1630 ' Load In Sprite Data
-1640 MODE 1:PEN 1:INK 1,26:INK 0,0:PAPER 0:CLS:template$="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-:":l=16:PRINT"Please Enter File Name
- To Load Data":PRINT:PRINT"> ";:GOSUB 1160:GOSUB 590
+1640 MODE 1:PEN 1:INK 1,26:INK 0,0:PAPER 0:CLS:template$="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-:":l=16:PRINT"Please Enter File Name To Load Data":PRINT:PRINT"> ";:GOSUB 1160:GOSUB 590
 1650 MODE 1:PRINT"Thank you. LOADing : ";b$
 1660 OPENIN b$
 1670 INPUT #9,nmd
-1680 IF md<>nmd THEN MODE 1:PRINT"This Sprite Is Not For The Current Mode";CHR$(7):PRINT:PRINT"Do You Wish To Convert It To Mode";md
-:GOSUB 1790:IF an=0 THEN md=nmd
-1690 INPUT #9,ngridx,ngridy:IF ngridy>gridy OR ngridx>gridx THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy:GO
-TO 1710
-1700 IF ngridx<gridx OR ngridy<gridy THEN MODE 2:PRINT"This Sprite Is Smaller Than Your Template":PRINT:PRINT"Do You Wish to Convert
- it":GOSUB 1790:IF an=0 THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy
+1680 IF md<>nmd THEN MODE 1:PRINT"This Sprite Is Not For The Current Mode";CHR$(7):PRINT:PRINT"Do You Wish To Convert It To Mode";md:GOSUB 1790:IF an=0 THEN md=nmd
+1690 INPUT #9,ngridx,ngridy:IF ngridy>gridy OR ngridx>gridx THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy:GOTO 1710
+1700 IF ngridx<gridx OR ngridy<gridy THEN MODE 2:PRINT"This Sprite Is Smaller Than Your Template":PRINT:PRINT"Do You Wish to Convert it":GOSUB 1790:IF an=0 THEN ERASE sprite:DIM sprite(ngridx,ngridy):gridx=ngridx:gridy=ngridy
 1710 ' Get Ink Colours
 1720 FOR i=0 TO 15:INPUT #9,col(i,1),col(i,2):NEXT
 1730 ' Get Sprite
