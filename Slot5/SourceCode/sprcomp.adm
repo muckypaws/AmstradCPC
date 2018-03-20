@@ -1,0 +1,589 @@
+;
+         ORG  #9000                     ; Sprite Compresion VERTICLE
+         ENT  $
+         DI   
+         LD   sp,#bff8
+         LD   bc,#7fc0
+         OUT  (c),c
+         LD   hl,insert
+         CALL print
+         CALL #bb18
+         LD   hl,name
+         CALL load
+         LD   iy,#100
+         LD   de,#200
+         CALL numbers                   ; Get Digital Numbers
+         CALL getpound
+         CALL getwin
+         CALL getbest
+         CALL fruits
+         CALL getfno
+         CALL getlet
+         LD   hl,name3
+         CALL load
+         CALL gethilos
+         LD   hl,name2
+         CALL load
+         CALL trans
+         LD   hl,name4
+         CALL load
+         CALL getfunc                   ; Get Game Functions In
+         LD   hl,name5
+         CALL load
+         CALL repeat
+         CALL yes
+         CALL no
+         CALL winner
+         CALL coins
+         DEC  d
+         LD   hl,insert1
+         CALL print
+         PUSH de
+         CALL #bb18
+         POP  de
+         LD   hl,name1
+         JP   save
+trans
+         LD   hl,#c000
+         LD   c,40
+trans1
+         CALL putoffs
+         PUSH hl
+         LD   b,200
+trans2
+         LD   a,(hl)
+         LD   (de),a
+         LD   (hl),0
+         INC  hl
+         INC  de
+         LD   a,(hl)
+         LD   (de),a
+         LD   (hl),0
+         DEC  hl
+         INC  de
+         LD   a,h
+         ADD  a,8
+         JR   nc,trans3
+         LD   a,l
+         ADD  a,#50
+         LD   l,a
+         LD   a,h
+         ADC  a,#c8
+trans3
+         OR   #c0
+         LD   h,a
+         DJNZ trans2
+         POP  hl
+         INC  hl
+         INC  hl
+         DEC  c
+         JR   nz,trans1
+         RET  
+print
+         LD   a,(hl)
+         OR   a
+         RET  z
+         INC  hl
+         CALL #bb5a
+         JR   print
+getfunc                                 ; Get Main Screen Strips
+         LD   a,20
+         LD   l,1
+         LD   bc,0
+gets1
+         PUSH af
+         LD   a,199
+         CALL putoffs
+         LD   c,0
+         PUSH bc
+         PUSH hl
+         CALL compactv
+         POP  hl
+         POP  bc
+         INC  l
+         INC  l
+         INC  b
+         INC  b
+         POP  af
+         DEC  a
+         JR   nz,gets1
+         RET  
+gethilos                                ; Get Hi Lo Slides
+         LD   a,5
+         LD   l,13
+         LD   bc,0
+gethl1a
+         PUSH af
+         CALL putoffs
+         LD   a,35
+         LD   c,0
+         PUSH hl
+         PUSH bc
+         CALL compactv
+         POP  bc
+         POP  hl
+         LD   a,b
+         ADD  a,16
+         LD   b,a
+         LD   a,l
+         ADD  a,16
+         LD   l,a
+         POP  af
+         DEC  a
+         JR   nz,gethl1a
+         LD   a,5
+         LD   l,13
+         LD   b,0
+gethl2a
+         PUSH af
+         CALL putoffs
+         LD   a,73
+         LD   c,38
+         PUSH hl
+         PUSH bc
+         CALL compactv
+         POP  bc
+         POP  hl
+         LD   a,b
+         ADD  a,16
+         LD   b,a
+         LD   a,l
+         ADD  a,16
+         LD   l,a
+         POP  af
+         DEC  a
+         JR   nz,gethl2a
+         LD   a,3
+         LD   l,13
+         LD   b,0
+gethl3a
+         PUSH af
+         CALL putoffs
+         LD   a,111
+         LD   c,76
+         PUSH hl
+         PUSH bc
+         CALL compactv
+         POP  bc
+         POP  hl
+         LD   a,b
+         ADD  a,16
+         LD   b,a
+         LD   a,l
+         ADD  a,16
+         LD   l,a
+         POP  af
+         DEC  a
+         JR   nz,gethl3a
+         RET  
+getfno                                  ; Get Fruits Numbers
+         CALL putoffs
+         LD   hl,#ddf0
+         LD   a,4
+getfno1
+         PUSH af
+         PUSH hl
+         LD   b,3
+         LD   c,12
+         CALL getspr
+         POP  hl
+         INC  hl
+         INC  hl
+         INC  hl
+         INC  hl
+         POP  af
+         DEC  a
+         JR   nz,getfno1
+         RET  
+repeat
+         CALL putoffs
+         LD   hl,#c000
+         LD   b,#c
+         LD   c,5
+         JP   getspr
+yes
+         CALL putoffs
+         LD   hl,#f000
+         LD   b,4
+         LD   c,13
+         JP   getspr
+no
+         CALL putoffs
+         LD   hl,#f005
+         LD   b,4
+         LD   c,13
+         JP   getspr
+getlet
+         CALL putoffs
+         LD   hl,#d690
+         LD   a,26*2
+         CALL getlet1
+         LD   hl,#cee0
+         LD   a,26*2
+getlet1
+         PUSH af
+         PUSH hl
+         LD   b,1
+         LD   c,5
+         CALL getspr
+         POP  hl
+         INC  hl
+         POP  af
+         DEC  a
+         JR   nz,getlet1
+         RET  
+getwin                                  ; Get WIN BANK
+         CALL putoffs
+         LD   hl,#f0f0
+         LD   b,#16
+         LD   c,8
+         JP   getspr
+getbest
+         CALL putoffs
+         LD   hl,#f10a
+         LD   b,#16
+         LD   c,8
+         JP   getspr
+fruits                                  ; Get Fruits Line 1
+         CALL putoffs
+         LD   hl,#c990
+         LD   a,6
+         CALL fruits1
+         LD   hl,#fad0                  ; Get Fruits Line 2
+         LD   a,6
+         CALL fruits1
+         LD   hl,#ec60
+         LD   a,2
+fruits1
+         PUSH af
+         PUSH hl
+         LD   b,11
+         LD   c,36
+         CALL getspr
+         POP  hl
+         PUSH de
+         LD   de,#d
+         ADD  hl,de
+         POP  de
+         POP  af
+         DEC  a
+         JR   nz,fruits1
+         RET  
+putoffs                                 ; Put Offset In IY
+         DEC  d
+         LD   (iy+0),e
+         LD   (iy+1),d
+         INC  iy
+         INC  iy
+         INC  d
+         RET  
+getpound
+         CALL putoffs
+         LD   l,78
+         LD   b,70
+         LD   c,1
+         LD   a,23
+         JP   compactv
+winner
+         CALL putoffs
+         LD   a,14
+         LD   b,0
+         LD   c,37
+         ADD  a,c
+         LD   l,11
+         JP   compactv
+coins
+         LD   hl,#f1e0
+         LD   b,8
+         LD   c,27
+         CALL coins1
+         LD   hl,#db20
+         CALL coins1
+         LD   hl,#d460
+         CALL coins1
+         LD   hl,#d5a0
+         CALL coins1
+         LD   hl,#d5ad
+;CALL coins1
+         CALL putoffs
+         LD   hl,#f1f6
+         CALL coins1
+         LD   hl,#db36
+         CALL coins1
+         LD   hl,#d476
+         CALL coins1
+         LD   hl,#d5b6
+         CALL coins1
+         LD   hl,#d5c3
+         JP   putoffs
+coins1
+         CALL putoffs
+         PUSH bc
+         CALL getspr
+         POP  bc
+         RET  
+numbers                                 ; Compress Verticle Numbers
+         LD   a,10
+         LD   bc,0
+         LD   l,5
+numbers1
+         PUSH af
+         CALL putoffs
+         LD   a,27
+         PUSH bc
+         PUSH hl
+         CALL compactv
+         POP  hl
+         POP  bc
+         INC  b
+         INC  b
+         INC  b
+         INC  b
+         INC  b
+         INC  b
+         INC  b
+         INC  l
+         INC  l
+         INC  l
+         INC  l
+         INC  l
+         INC  l
+         INC  l
+         POP  af
+         DEC  a
+         JR   nz,numbers1
+         RET  
+;
+getspr
+         PUSH bc
+         PUSH hl
+getspr2
+         LD   a,(hl)
+         LD   (hl),#ff
+         LD   (de),a
+         INC  hl
+         INC  de
+         DJNZ getspr2
+         POP  hl
+         LD   a,h
+         ADD  a,8
+         LD   h,a
+         JR   nc,getspr3
+         LD   bc,#c050
+         ADD  hl,bc
+getspr3
+         POP  bc
+         DEC  c
+         JR   nz,getspr
+         RET  
+load
+         PUSH de
+         PUSH iy
+         LD   b,len
+         LD   de,#c000
+         CALL #bc77
+         LD   hl,#c000
+         CALL #bc83
+         CALL #bc7a
+         POP  iy
+         POP  de
+         RET  
+save
+         PUSH de
+         LD   b,len
+         LD   de,#c000
+         CALL #bc8c
+         LD   hl,#100
+         POP  de
+         LD   bc,0
+         LD   a,2
+         CALL #bc98
+         JP   #bc8f
+;
+numbaddr DEFW 0
+poundno  DEFW 0
+winbank  DEFW 0
+bestwin  DEFW 0
+fruitad  DEFW 0
+fruitno  DEFW 0
+letters  DEFW 0
+name     DEFM SCREEN1 .SCR
+name1    DEFM SLOT5   .SPR
+name2    DEFM SCREEN  .SCR
+name3    DEFM HILOSLDE.SCR
+name4    DEFM SCREEN2 .SCR
+name5    DEFM SCREEN3 .SCR
+len      EQU  $-name5
+;
+compactv
+         LD   (e5),a
+         INC  a
+         LD   (e1),a
+         LD   a,c
+         LD   (e2),a
+         DEC  a
+         LD   (e3),a
+         LD   a,l
+         INC  a
+         LD   (e4),a
+         LD   ix,count
+         CALL compress                  ; DE=Location To Place Sprite
+         XOR  a
+         LD   (de),a
+         INC  de
+         RET  
+compress                                ; Sprite Compressor
+         LD   hl,diffs
+         CALL getbyte
+         RET  nc
+         LD   (ix+1),a
+         LD   (hl),a
+         INC  hl
+         LD   (ix+0),1
+         CALL getbyte
+         CALL nc,outsame
+         RET  nc
+         INC  (ix+0)
+         LD   (hl),a
+         INC  hl
+         CP   (ix+1)
+         LD   (ix+1),a
+         JR   z,same
+diffrent
+         CALL getbyte
+         CALL nc,outdiff
+         RET  nc
+         CP   (ix+1)
+         CALL z,backdiff
+         CALL z,outdiff
+         JR   z,compress
+         CALL adddiff
+         JR   nc,compress
+         JR   diffrent
+same
+         CALL getbyte
+         CALL nc,outsame
+         RET  nc
+         CP   (ix+1)
+         CALL nz,backsame
+         CALL nz,outsame
+         JR   nz,compress
+         CALL addsame
+         JR   nc,compress
+         JR   same
+getbyte
+         LD   a,b
+         SUB  200
+e4       EQU  $-1
+         RET  nc
+         LD   a,c
+         PUSH hl
+         PUSH bc
+         AND  7
+         ADD  a,a
+         ADD  a,a
+         ADD  a,a
+         ADD  a,#c0
+         LD   h,a
+         LD   l,b
+         PUSH hl
+         LD   b,0
+         SRL  c
+         SRL  c
+         SRL  c
+         PUSH bc
+         POP  hl
+         ADD  hl,hl
+         ADD  hl,hl
+         ADD  hl,bc
+         ADD  hl,hl
+         ADD  hl,hl
+         ADD  hl,hl
+         ADD  hl,hl
+         POP  bc
+         ADD  hl,bc
+         POP  bc
+         INC  c
+         LD   a,c
+         CP   0
+e1       EQU  $-1
+         JR   nz,gb2
+         LD   c,0
+e2       EQU  $-1
+         INC  b
+gb2
+         LD   a,(hl)
+         POP  hl
+         SCF  
+         RET  
+adddiff
+         LD   (ix+1),a
+         LD   (hl),a
+         INC  hl
+         INC  (ix+0)
+         LD   a,(ix+0)
+         CP   127
+         RET  c
+outdiff
+         LD   a,(ix+0)
+         LD   (de),a
+         INC  de
+         LD   hl,diffs
+         PUSH bc
+         LD   c,a
+         LD   b,0
+         LDIR 
+         POP  bc
+         RET  
+addsame
+         INC  (ix+0)
+         LD   a,(ix+0)
+         CP   127
+         RET  c
+outsame
+         LD   a,(ix+0)
+         SET  7,a
+         LD   (de),a
+         INC  de
+         LD   a,(ix+1)
+         LD   (de),a
+         INC  de
+         RET  
+backdiff
+         PUSH af
+         DEC  (ix+0)
+         POP  af
+         CALL backsame
+backsame
+         PUSH af
+         LD   a,c
+         DEC  a
+         CP   0
+e3       EQU  $-1
+         JR   nz,bs1
+         LD   a,0
+e5       EQU  $-1
+         DEC  b
+bs1
+         LD   c,a
+         POP  af
+         RET  
+count    DEFW 0
+diffs    DEFS 150
+insert   DEFB 12,7
+         DEFM Insert Screen Files Sourc
+         DEFM e Disk In Drive A: 
+         DEFB 13,10,10
+         DEFM With : SCREEN.SCR : SCREE
+         DEFM N1.SCR : HILOSLDE.SCR : 
+         DEFM SCREEN2.SCR : SCREEN3.SCR
+         DEFB 13,10
+         DEFB 0
+insert1
+         DEFB 13,10,10,10
+         DEFM Insert Destination Disk F
+         DEFM or Compressed Sprite Data
+         DEFB 13,10,10
+         DEFM With SLOT5.GAM On The Dis
+         DEFM k
+         DEFB 13,10,10,7,0
