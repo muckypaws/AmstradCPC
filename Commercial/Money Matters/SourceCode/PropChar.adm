@@ -1,0 +1,264 @@
+;
+         ORG  #9000                     ; Display Proportionate Letter Routine
+start                                   ; Written By Jason Brooks (C) 1992 Jace
+         ENT  $
+         XOR  a
+         CALL #bc0e
+         XOR  a
+         LD   (shift),a
+         LD   hl,#c000
+         LD   a,"J"
+         CALL text
+;
+;CALL #bb18
+         LD   a,12
+         LD   (penink),a
+         LD   hl,#c000
+         LD   a,1
+         LD   (shift),a
+         LD   a,"J"
+;CALL text
+         CALL #bb18
+         RET  
+text
+         LD   hl,#c000
+         LD   (ascraddr),hl
+         LD   hl,message
+text1
+         LD   a,(hl)
+         OR   a
+         RET  z
+         INC  hl
+         PUSH hl
+         CALL char
+         JR   text2
+         LD   a,(shift)
+         DEC  a
+         JR   nz,text2
+         LD   (shift),a
+         LD   hl,(ascraddr)
+         INC  hl
+         LD   (ascraddr),hl
+text2
+         POP  hl
+         JR   text1
+;
+char                                    ; Display Character
+         LD   hl,(ascraddr)
+         LD   (scraddr),hl              ; Screen Address To Place Char
+         LD   (oscraddr),hl
+         CALL getlen                    ; Get Location Of Character And Width
+         LD   b,a
+         LD   a,(nshift)
+         LD   (shift),a
+         LD   (oshift),a
+         PUSH bc
+         PUSH de
+         PUSH hl
+         LD   c,b
+         LD   a,(width)
+         LD   b,a
+         DEC  c
+         XOR  a
+charx
+         ADD  a,c
+         DJNZ charx
+;SRA  a
+         LD   e,a
+         LD   a,(width)
+         SRA  a
+         JR   nz,charx3
+         INC  a
+charx3
+         ADD  a,e
+         SRA  a
+         LD   e,a
+         LD   a,(oshift)
+         JR   nc,charx1
+         LD   a,(oshift)
+         XOR  1
+         JR   nz,charx1
+         INC  e
+charx1
+         LD   d,0
+         LD   hl,(ascraddr)
+         ADD  hl,de
+         LD   (ascraddr),hl
+         LD   (nshift),a
+         POP  hl
+         POP  de
+         POP  bc
+         LD   a,(penink)
+         CALL #bc2c
+         LD   (wpen),a
+         LD   a,(paperink)
+         CALL #bc2c
+         LD   (wpaper),a
+         LD   a,(shift)
+         LD   (oshift),a                ; Preserve shifted bit state.
+         LD   c,8
+char1
+         PUSH hl
+         PUSH bc
+         LD   a,(hl)
+char2
+         RLCA 
+         PUSH af
+         CALL c,charpen                 ; Plot in pen if point
+         CALL nc,chrpaper               ; Plot in paper if no point
+         POP  af
+         DJNZ char2
+         INC  de                        ; Point DE to next character
+         LD   a,(oshift)
+         LD   (shift),a                 ; Restore Old Shift State
+         LD   a,(height)                ; Get proportion height
+         LD   b,a
+         LD   hl,(oscraddr)             ; Get original Screen address
+char3
+         CALL bytedwn
+         DJNZ char3                     ; Calculate Next proportionate address 
+         LD   (scraddr),hl
+         LD   (oscraddr),hl
+         POP  bc
+         POP  hl
+         INC  hl
+         DEC  c                         ; Loop For Full Character.
+         JR   nz,char1
+         RET  
+chrpaper
+         LD   a,(wpaper)
+         LD   (maskit),a
+         JR   plotdot
+charpen                                 ; Display Point In Pen Colour.
+         LD   a,(wpen)
+         LD   (maskit),a
+plotdot
+         PUSH af
+         PUSH bc
+         PUSH de
+         PUSH hl
+         LD   a,(width)
+         LD   b,a
+charpenl
+         PUSH bc
+         LD   hl,(scraddr)
+         LD   c,0                       ; Contains Encoded In In Which To PLot
+maskit   EQU  $-1
+         LD   a,(shift)
+         LD   d,#aa                     ; Mask Bit
+         OR   a                         ; Is To Be SHIFTED ?
+         JR   z,charpen1
+         LD   d,#55
+charpen1
+         LD   a,c
+         AND  d
+         LD   c,a                       ; Get Appropriate Bit To Plot
+         LD   a,d
+         XOR  #ff                       ; Reverse Mask For Printing
+         LD   d,a
+;
+         LD   a,(height)
+         LD   b,a
+chrpdl
+         LD   a,(hl)
+         AND  d
+         OR   c
+         LD   (hl),a                    ; Plot the point (Finally)
+         CALL bytedwn
+         DJNZ chrpdl
+         LD   a,(shift)
+         XOR  1
+         LD   (shift),a
+         JR   nz,charpen2
+         LD   hl,(scraddr)
+         INC  hl
+         LD   (scraddr),hl
+charpen2
+         POP  bc
+         DJNZ charpenl
+         POP  hl
+         POP  de
+         POP  bc
+         POP  af
+         RET  
+;
+bytedwn                                 ; Calculate Screen Address 1 Line Down
+         LD   a,8
+         ADD  a,h
+         JR   nc,bytedwn1
+         LD   a,#50
+         ADD  a,l
+         LD   l,a
+         LD   a,h
+         ADC  a,#c8
+bytedwn1
+         OR   #c0
+         LD   h,a
+         RET  
+;
+getlen                                  ; Get width of ASCII Char (32 -> 122)
+         PUSH bc                        ; Entry A=Ascii Char To Print
+         PUSH de
+         SUB  32
+         PUSH af
+         LD   l,a
+         LD   h,0
+         ADD  hl,hl
+         ADD  hl,hl
+         ADD  hl,hl                     ; HL = Offset into CHARACTER Matrix
+         LD   de,matrix
+         ADD  hl,de                     ; HL Points To Char
+         POP  af
+         PUSH hl
+         LD   e,a
+         RRA  
+         LD   l,a
+         LD   h,0
+         LD   bc,pctable
+         ADD  hl,bc
+         LD   a,e
+         RRA  
+         LD   a,(hl)
+         JR   c,getlen1
+         RRCA 
+         RRCA 
+         RRCA 
+         RRCA 
+getlen1
+         AND  #0f
+         POP  hl                        ; HL = Address Of character in matrix
+         POP  de
+         POP  bc
+         RET  
+pctable                                 ; Character Width Table
+         DEFB #42,#46,#64,#73
+         DEFB #55,#66,#35,#26
+         DEFB #54,#55,#65,#65
+         DEFB #55,#33,#65,#65
+         DEFB #65,#66,#66,#66
+         DEFB #66,#66,#66,#67
+         DEFB #67,#66,#65,#66
+         DEFB #56,#63,#53,#63
+         DEFB #46,#65,#65,#55
+         DEFB #64,#56,#48,#65
+         DEFB #66,#66,#65,#68
+         DEFB #65,#60
+;
+width    DEFB 1                         ; Scaling Width Of character to plot
+height   DEFB 1                         ; Scaling height of character to plot
+penink   DEFB 13                        ; User Defined PEN Colour 0-15
+paperink DEFB 0                         ; User Defined PAPER Colour 0-15
+wpen     DEFB 0                         ; Calculated Pen Mask ENCODED
+wpaper   DEFB 0                         ; Calculated Paper Mask ENCODED
+scraddr  DEFW #c000                     ; Address Where To Place Character
+oscraddr DEFW #c000                     ; Old Address Where To Place Character
+ascraddr DEFW #c000                     ; May not be needed yet
+;
+shift    DEFB 0                         ; Shift BIT plot flag
+oshift   DEFB 0                         ; OLD Shift BIT plot flag
+nshift   DEFB 0
+matrix   EQU  #2000
+;matrix   DEFS 8*91,0                    ; Where the character matrix resides
+message
+         DEFM ian sux
+         DEFB 0
