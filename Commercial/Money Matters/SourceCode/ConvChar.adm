@@ -1,0 +1,224 @@
+;
+         ORG  #9000                     ; CONVCHAR.ADM
+start    ENT  $                         ; Convert Characters From MISC.SCR
+         DI                             ; To Binary File
+         XOR  a
+         CALL #bc0e
+         LD   bc,#7fc0
+         OUT  (c),c
+         CALL load
+         DI   
+         LD   ix,scrtble
+         LD   iy,pctable
+         LD   l,(ix+0)
+         LD   h,(ix+1)
+         LD   de,matrix
+         LD   b,16
+         LD   c,0
+         CALL convert
+         INC  ix
+         INC  ix
+;
+         LD   l,(ix+0)
+         LD   h,(ix+1)
+         LD   b,10
+         CALL convert
+         INC  ix
+         INC  ix
+; CHARS  :;<=> etc.
+         LD   l,(ix+0)
+         LD   h,(ix+1)
+         LD   b,7
+         CALL convert
+         INC  ix
+         INC  ix
+; LETTER  A-Z
+         LD   l,(ix+0)
+         LD   h,(ix+1)
+         LD   b,26
+         CALL convert
+         INC  ix
+         INC  ix
+; CHARS  [\]
+         LD   l,(ix+0)
+         LD   h,(ix+1)
+         LD   b,6
+         CALL convert
+         INC  ix
+         INC  ix
+; LETTER    a-z
+         LD   l,(ix+0)
+         LD   h,(ix+1)
+         LD   b,26
+         CALL convert
+         INC  ix
+         INC  ix
+         CALL #bb18
+         LD   hl,name1
+         LD   b,len1
+         CALL #bc8c
+         LD   hl,matrix
+         LD   de,91*8
+         LD   bc,0
+         LD   a,2
+         CALL #bc98
+         CALL #bc8f
+;
+         LD   bc,#7fc4
+         OUT  (c),c
+         LD   sp,#bff8
+         JP   #4000
+;
+         RET  
+name1    DEFM CHARSET
+len1     EQU  $-name1
+;
+convert
+         PUSH bc
+         PUSH hl
+         CALL getlen
+         RRA  
+         ADC  a,0                       ; Calculates Correct Byte Length Of Cha
+         LD   (conv2r),a
+         LD   c,8                       ; Height Of Character
+         PUSH af
+         CALL conv0                     ; Convert Single Character
+         POP  af
+         POP  hl
+         LD   c,a                       ; Add Character Byte Offset For NExt Ad
+         LD   b,0
+         ADD  hl,bc
+         POP  bc
+         INC  c                         ; Increment The Char Counter
+         DJNZ convert
+         RET  
+conv0
+conv1
+         LD   b,3
+conv2r   EQU  $-1
+         PUSH bc
+         PUSH hl
+         LD   c,0                       ; Will Contain Final Matrix
+convert1
+         PUSH hl
+         CALL bitlft
+         LD   a,c
+         RLA  
+;ADC  a,0
+         LD   c,a
+         CALL bitrght
+;SLA  c
+         LD   a,c
+;ADC  a,0
+;ADD  a,a
+         RLA  
+         LD   c,a
+         POP  hl
+         INC  hl
+         DJNZ convert1
+         LD   a,(conv2r)
+         LD   b,a
+         LD   a,4
+         CP   b
+         JR   z,cv2
+         SUB  b
+         ADD  a,a
+;DEC  a
+         LD   b,a
+         LD   a,c
+         AND  a
+cv1
+         ADD  a,a
+         DJNZ cv1
+         LD   c,a
+cv2
+         LD   a,c
+         LD   (de),a
+         INC  de
+         POP  hl
+         LD   a,h
+         ADD  a,8
+         JR   nc,convert2
+         LD   a,#50
+         ADD  a,l
+         LD   l,a
+         LD   a,h
+         ADC  a,#c8
+convert2
+         OR   #c0
+         LD   h,a
+         POP  bc
+         DEC  c
+         JR   NZ,conv1
+         LD   c,8
+         RET  
+bitlft
+         LD   a,(hl)
+         AND  #aa
+         RET  z
+         SCF  
+         RET  
+bitrght
+         LD   a,(hl)
+         AND  #55
+         LD   (hl),#ff
+         RET  z
+         SCF  
+         RET  
+;
+getlen
+         PUSH hl
+         PUSH de
+         PUSH bc
+         LD   a,c
+         AND  a
+         RRCA 
+         LD   a,(iy+0)
+         JR   c,getlen1
+         RRCA 
+         RRCA 
+         RRCA 
+         RRCA 
+getlen1
+         AND  #0f
+         POP  bc
+         INC  c
+         BIT  0,c
+         JR   nz,getlen2
+         INC  iy
+getlen2
+         POP  de
+         POP  hl
+         RET  
+load
+         LD   hl,name
+         LD   b,len
+         CALL #bc77
+         LD   hl,#c000
+         CALL #bc83
+         JP   #bc7a
+;
+name     DEFM MISC.SCR
+len      EQU  $-name
+pctable
+         DEFB #32,#46,#64,#73
+         DEFB #55,#66,#35,#26
+         DEFB #54,#55,#65,#65
+         DEFB #55,#33,#65,#65
+         DEFB #65,#66,#66,#66
+         DEFB #66,#66,#66,#67
+         DEFB #67,#66,#65,#66
+         DEFB #56,#63,#53,#63
+         DEFB #46,#65,#65,#55
+         DEFB #64,#56,#48,#65
+         DEFB #66,#66,#65,#68
+         DEFB #65,#60
+;
+scrtble  DEFW #e990
+         DEFW #f0a0
+         DEFW #d940
+         DEFW #d050
+         DEFW #f9e0
+         DEFW #c000
+;
+matrix   DEFS 8*91,0
