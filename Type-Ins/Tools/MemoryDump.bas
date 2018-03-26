@@ -7,10 +7,8 @@
 16 PRINT"|MEMORY  To Give a 464/664 Memory Dump."
 17 PRINT:PRINT"|MEMORY,1  To Give 6128 or 464/664 + 64k Dump."
 18 PRINT:PRINT"N.B. If You Press S After Dump, Screen Will Be Saved To Tape/Disc"
-19 PRINT:PRINT">>>> Press Any Key To Exit Dump <<<<":PRINT:PRINT"After Machine Code Is Saved OnTo TAPE/DISC":PRINT:PRINT"You Can Rel
-oad The Program As Follows:-":PRINT:PRINT"MEMORY &9FFF":PRINT"LOAD ";CHR$(34);"MEMORY.RSX";CHR$(34);",&A000"
-20 PRINT"CALL &A000":PRINT:PRINT"Or From You Own Machine Code Program By CALLing &A039":PRINT:PRINT"POKE &A0D5,&C9  will not wait fo
-r a key to be pressed.":ln=31
+19 PRINT:PRINT">>>> Press Any Key To Exit Dump <<<<":PRINT:PRINT"After Machine Code Is Saved OnTo TAPE/DISC":PRINT:PRINT"You Can Reload The Program As Follows:-":PRINT:PRINT"MEMORY &9FFF":PRINT"LOAD ";CHR$(34);"MEMORY.RSX";CHR$(34);",&A000"
+20 PRINT"CALL &A000":PRINT:PRINT"Or From You Own Machine Code Program By CALLing &A039":PRINT:PRINT"POKE &A0D5,&C9  will not wait for a key to be pressed.":ln=31
 21 MEMORY &9FFF
 22 FOR adr=&A000 TO &A325 STEP 13
 23 READ byte$:chk=0
