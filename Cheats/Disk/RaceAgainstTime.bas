@@ -1,0 +1,32 @@
+10 ' Race Against Time
+11 ' By Omar Khalifa
+12 ' Patch
+13 DATA F3,DD,21,00,BF,11
+14 DATA 47,00,CD,67,BB,21
+15 DATA 2A,BE,22,44,BF,C3
+16 DATA 00,BF,21,FF,AB,11
+17 DATA 40,00,C3,E9,3A,3E
+18 DATA 45,32,4B,00,3E,99
+19 DATA 32,4E,00,F3,F1,C9
+20 ' Cheats:-
+21 DATA 21,00,00,22,C1,89
+22 ' See Screens Display.
+23 DATA AF,32,0C,90
+24 ' Stop the Clock
+25 DATA 3E,39,32,7C,8E
+26 ' Start with 9 mins
+27 DATA C3,51,4E,*
+28 ' Leave line above
+29 FOR i=&BE00 TO &BE29
+30 READ a$:a=VAL("&"+a$)
+31 POKE i,a:b=b+a:NEXT
+32 IF b<>4525 THEN 41
+33 READ a$:IF a$="*" THEN 36
+34 a=VAL("&"+a$)
+35 POKE i,a:i=i+1:GOTO 33
+36 MEMORY &2000:LOAD"!"
+37 POKE &3A77,&C3
+38 POKE &3A78,&1D
+39 POKE &3A79,&BE
+40 CALL &BE14
+41 PRINT"Error in Patch."
