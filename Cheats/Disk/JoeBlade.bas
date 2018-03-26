@@ -1,0 +1,27 @@
+10 ' Cassys Cracker
+11 MEMORY &3FFF:LOAD"!
+12 POKE &417F,&8F
+13 POKE &41CC,&B3
+14 POKE &422C,&F9
+15 POKE &422B,2
+16 FOR i=0 TO 5
+17 READ a$:a=VAL("&"+a$)
+18 POKE &BE80+i,a:NEXT
+19 READ a$
+20 IF a$="End" THEN 24
+21 a=VAL("&"+a$)
+22 POKE &BE80+i,a
+23 i=i+1:GOTO 19
+24 CALL &4005
+25 DATA 21,00,04,22,b3,ac
+28 ' Joe Blade
+29 DATA 21,8f,BE,22,12,AD
+30 DATA C3,00,AC,AF
+31 DATA 32,5d,10
+32 'Line 31 Inf. Ammo
+33 DATA 32,84,12
+34 'Line 33 Inf. Keys
+35 DATA 32,90,14
+36 'Line 35 Uniform
+37 'Don't Wear Out
+38 DATA C3,14,AC,End
