@@ -1,0 +1,40 @@
+10 ' Cybernoid Cheat
+11 ' By Jason Woolley
+12 POKE &BDF4,&C9
+13 MEMORY &3FFF:MODE 1
+14 PRINT "LOADING ";
+15 PRINT"CYBERNOID"
+16 LOAD "!loader",&4000
+17 INK 0,0:INK 1,24
+18 INK 2,20:INK 3,26
+19 BORDER 0
+20 POKE &4153,64
+21 POKE &4154,0
+22 ' Leave Out Line
+23 ' Of Poke Not
+24 ' Required, RE-WIND
+25 ' TAPE & Run
+26 a=&BE80
+27 READ a$
+28 IF a$="GO" THEN CALL &BE80
+29 POKE a,VAL("&"+a$)
+30 a=a+1:GOTO 27
+31 DATA 21,8E,BE,11,40
+32 DATA 00,01,a0,00,ED
+33 DATA B0,C3,00,40
+34 ' Cheats
+35 DATA 21,3A,2B,36,C9
+36 ' No. Col. Det.
+37 DATA 21,11,35,36,C9
+38 ' No Aliens
+39 DATA 21,4D,34,36,C9
+40 ' Rockets Don't Fire
+41 DATA 21,9F,2C,36,C9
+42 ' No Pistons
+43 DATA 21,9B,29,36,C9
+44 ' Big Things Don't
+45 ' Shoot You !
+46 DATA AF,32,AE,2B
+47 ' Infinite Lives
+48 DATA C3,00,02,GO
+49 ' Leave Above Line
