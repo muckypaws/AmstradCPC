@@ -1,0 +1,20 @@
+10 'Uridium +
+11 'By Jason Brooks
+12 MODE 1:MEMORY &3FFF
+13 LOAD"!loader",&4000
+14 BORDER 0:INK 0,0
+15 INK 1,20:INK 2,26
+16 INK 3,24
+17 POKE &414E,&80
+18 POKE &414F,&BE
+19 i=&BE80
+20 READ a$
+21 IF a$="+" THEN CALL &4000
+22 POKE i,VAL("&"+a$)
+23 i=i+1:GOTO 20
+24 DATA 3e,ff,32,2d,47
+25 'Numerous Lives
+26 DATA af,32,c2,5e
+27 'Infinite lives
+28 DATA c3,00,40,+
+29 'Leave 190
