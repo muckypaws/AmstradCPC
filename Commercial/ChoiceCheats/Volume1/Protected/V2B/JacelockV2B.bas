@@ -1,0 +1,95 @@
+10 'JacelocK Protection System V2.89(B) BUDGET DISK PROTECTION (C) 1989 JacesofT
+20 IF PEEK(&4000)<>201 THEN MEMORY &3FFF:LOAD"complete.v2b",&4000:LOAD"detect.v2b",&4800:CALL &4000
+30 CALL &BBFF:CALL &BC02:PAPER 0:PEN 1:BORDER 0:INK 0,0:INK 1,25:MODE 2:CLEAR
+40 filename=&44D7:savename=&4537:source=0:destination=1
+50 FOR i=1 TO 80:LOCATE i,1:PRINT"*";:LOCATE 81-i,25:PRINT"*";:NEXT
+60 FOR i=2 TO 24:LOCATE 80,i:PRINT"*";:LOCATE 1,26-i:PRINT"*";:NEXT
+70 LOCATE 12,3:PRINT"JacelocK Protection System V2.89(B) - (C) 1989 JacesofT."
+80 LOCATE 15,6:PRINT"1) Format Disk In Protected Format"
+90 LOCATE 15,8:PRINT"2) Create Protected Files (Basic/Machine Code)"
+100 LOCATE 15,10:PRINT"3) Catalogue A Disk"
+110 LOCATE 22,12:PRINT">>> Please Select An Option <<<"
+120 LOCATE 4,23:PRINT"Source Drive : ";:IF source THEN PRINT"B" ELSE PRINT"A"
+130 LOCATE 57,23:PRINT"Destination Drive : ";:IF destination THEN PRINT"B" ELSE PRINT"A"
+140 LOCATE 28,23:PRINT"S & D To Toggle Drives"
+150 LOCATE 19,23:IF source THEN PRINT"B" ELSE PRINT"A"
+160 LOCATE 77,23:IF destination THEN PRINT"B" ELSE PRINT"A"
+170 a$=INKEY$:IF UPPER$(a$)="S" THEN source=source XOR 1
+180 IF UPPER$(a$)="D" THEN destination=destination XOR 1
+190 IF a$<"1" OR a$>"3" THEN 150
+200 a=VAL(a$):ON a GOSUB 220,420,360:WINDOW 2,79,2,24:CLS:GOTO 70
+210 ' Format Disk In Protected Form
+220 'Format Disk In A Protected Format
+230 LOCATE 20,15:PRINT"Format Disk To :-"
+240 LOCATE 20,17:PRINT"A: DATA FORMAT"
+250 LOCATE 20,19:PRINT"B: CPM FORMAT"
+260 LOCATE 20,21:PRINT"C: IBM FORMAT"
+270 a$=INKEY$:a$=UPPER$(a$):IF a$<"A" OR a$>"C" THEN 270
+280 WINDOW 2,79,14,24:CLS:PRINT"Insert Disk To Be Formatted In Drive ";:IF destination THEN PRINT"B:"; ELSE PRINT"A:";
+290 PRINT" Then Press SPACE"
+300 WHILE INKEY$<>" ":WEND
+310 CLS:PRINT"Formatting Track : ";
+320 IF a$="A" THEN |PROTECT.DATA,destination
+330 IF a$="B" THEN |PROTECT.CPM,destination
+340 IF a$="C" THEN |PROTECT.IBM,destination
+350 WINDOW 1,80,1,25:RETURN
+360 ' Catalogue A Disk
+370 WINDOW 2,79,2,24:CLS:IF source=0 THEN |A ELSE |B
+380 PRINT"Catalogue On Drive ";:IF source THEN PRINT"B:" ELSE PRINT"A:"
+390 CAT
+400 IF source THEN a$="B" ELSE a$="A":|DRIVE,@a$
+410 PRINT"Press A Key.":CALL &BB18:CLS:WINDOW 1,80,1,25:RETURN
+420 WINDOW 2,79,2,24:CLS:PRINT"Insert Source Disk Into Drive ";:IF source THEN PRINT"B:"; ELSE PRINT"A:";:PRINT" Press SPACE"
+430 WHILE INKEY$<>" ":WEND
+440 CLS:PRINT"Please Select A File To Encrypt : Cursor Keys To Move , Copy To Select."
+445 PRINT"   L To Log In A New Disk , Q To Return To Main Menu"
+450 IF source THEN a$="B" ELSE a$="A":|DRIVE,@a$
+460 WINDOW 2,79,5,24:CLS:CAT
+470 x=1:y=1
+480 GOSUB 560
+490 IF INKEY(0)>-1 THEN GOSUB 580
+500 IF INKEY(2)>-1 THEN GOSUB 630
+510 IF INKEY(8)>-1 THEN GOSUB 670
+520 IF INKEY(1)>-1 THEN GOSUB 710
+530 IF INKEY(9)>-1 THEN GOSUB 750:WINDOW 2,79,5,24
+535 IF INKEY(67)>-1 THEN CLS:RETURN
+536 IF INKEY(36)>-1 THEN 460
+540 GOTO 490
+550 END
+560 b$="":FOR xx=1 TO 12:LOCATE ((x-1)*20)+xx,y+3:b$=b$+COPYCHR$(#0):NEXT xx
+570 LOCATE ((x-1)*20)+1,y+3:PRINT "";b$;"";:RETURN
+580 'Move Up
+590 IF y=1 THEN RETURN
+600 LOCATE ((x-1)*20)+1,y+2:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+610 LOCATE ((x-1)*20)+1,y+3:PRINT b$:y=y-1
+620 GOTO 560
+630 'Move Down
+640 IF y=16 THEN RETURN
+650 LOCATE ((x-1)*20)+1,y+4:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+660 LOCATE ((x-1)*20)+1,y+3:PRINT b$:y=y+1:GOTO 560
+670 'Move Left
+680 IF x=1 THEN RETURN
+690 LOCATE ((x-2)*20)+1,y+3:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+700 LOCATE ((x-1)*20)+1,y+3:PRINT b$:x=x-1:GOTO 560
+710 'Move Right
+720 IF x=4 THEN RETURN
+730 LOCATE ((x)*20)+1,y+3:c$=COPYCHR$(#0):IF c$=" " THEN RETURN
+740 LOCATE ((x-1)*20)+1,y+3:PRINT b$:x=x+1:GOTO 560
+750 'Encrypt Appropriate File
+755 WINDOW 2,79,20,24:CLS
+760 IF source THEN a=66 ELSE a=65
+770 IF destination THEN b=66 ELSE b=65
+780 POKE filename,a:POKE filename+1,ASC(":")
+790 POKE savename,b:POKE savename+1,ASC(":")
+800 CLS:PRINT"Encrypt File : ";b$;" Are You Sure ?"
+810 a$=INKEY$:a$=UPPER$(a$):IF a$="N" THEN RETURN
+820 IF a$<>"Y" AND a$<>"N" THEN 810
+830 PRINT"Enter SAVENAME (Press Return For Default)"
+840 INPUT a$
+845 IF source<>destination THEN POKE &BB18,&C9 ELSE POKE &BB18,&CF
+850 IF a$="" THEN savename$=b$
+860 IF LEN(a$)>12 THEN 830
+870 FOR i=1 TO 12:POKE filename+1+i,ASC(MID$(b$,i,1)):NEXT
+880 a$=a$+SPACE$(12)
+890 FOR i=1 TO 12:POKE savename+1+i,ASC(MID$(savename$,i,1)):NEXT
+900 CLS:WINDOW 5,75,20,20:|ENCRYPT:CLS:POKE &BB18,&CF:RETURN
