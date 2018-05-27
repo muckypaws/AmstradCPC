@@ -1,0 +1,66 @@
+10 ' Twin Turbo V8 Cheat Mode
+20 ' (C) 1989 1st Choice Software
+30 CALL &BC02:CALL &BBFF:BORDER 0:INK 0,0:INK 1,25:PAPER 0:PEN 1:MODE 1
+40 PAPER 3:PEN 1
+50 RESTORE 350:GOSUB 140:PAPER 0:PEN 2:PRINT:PRINT:GOSUB 140
+60 GOSUB 430:MODE 1:RESTORE 410:PEN 3:GOSUB 140
+70 a$=INKEY$:IF a$<>" " THEN 70
+80 PEN 1:MODE 1:a$="O.k. Here We Go...":GOSUB 170:CALL &BC6B,1:CALL &BE80
+90 END
+100 pt=TIME+450:WHILE pt>TIME:WEND
+110 PAPER 1:PEN 3:LOCATE 10,24:PRINT "HIT SPACE TO PROCEED"
+120 WHILE INKEY$<>" ":WEND
+130 RETURN
+140 ' Messages
+150 READ a$:IF a$="XX" THEN RETURN
+160 GOSUB 170:GOTO 150
+170 ' Print Routine For Mode 1 - Rather Long Winded N'est Pas ?
+180 t=1:b$="":ma=40
+190 IF LEN(a$)<ma+1 THEN c$=a$:GOTO 340
+200 c$=""
+210 mat=1
+220 b$=""
+230 WHILE MID$(a$,t,1)<>" " AND t<>LEN(a$)+1
+240 b$=b$+MID$(a$,t,1)
+250 t=t+1:WEND
+260 IF MID$(a$,t,1)=" " THEN b$=b$+" ":t=t+1
+270 mat=mat+LEN(b$)
+280 IF mat>ma THEN 310
+290 IF mat<ma+1 THEN c$=c$+b$:IF t<LEN(a$)+1 THEN 220
+300 IF t=LEN(a$) OR t>LEN(a$) THEN GOSUB 340:PRINT:RETURN
+310 t=t-LEN(b$)
+320 GOSUB 340:PRINT
+330 c$="":GOTO 210
+340 FOR x=1 TO LEN(c$):PRINT MID$(c$,x,1);CHR$(24);" ";CHR$(24);CHR$(8);:SOUND 1,ASC(MID$(c$,x,1))+100,1:SOUND 2,ASC(MID$(c$,x,1))+200,1:NEXT:PAPER 0:PRINT" ":RETURN
+350 ' Place Instruction Data
+360 DATA "TWIN TURBO V8 - Cheat Mode"
+370 DATA "(C) 1989 1st Choice Software."
+380 DATA XX
+390 DATA "This Cheat For Code Masters' Last V8 Will Let You Choose","Infinite Lives Or","Stopping The Clock"
+400 DATA XX
+410 DATA "Thank You. Please Insert Your","TWIN TURBO V8 Cassette And Press Play","Hit Space When You Are Ready."
+420 DATA XX
+430 GOSUB 100:RESTORE 600
+440 FOR i=&BE80 TO &BEBC:READ a$:a=VAL("&"+a$):POKE i,a:NEXT:i=i-1
+450 RESTORE 630
+460 PAPER 0:PEN 1:MODE 2:BORDER 0:INK 0,0:INK 1,26
+470 READ ask$,cheat$:IF ask$="54321" THEN 530
+471 ask$=ask$+" ? "
+480 GOSUB 570
+490 y$=INKEY$:IF y$="" THEN 490
+500 y$=UPPER$(y$):IF y$="Y" OR y$="O" THEN PRINT y$:GOSUB 550
+510 IF y$="N" OR y$="Y" OR y$="O"  THEN PRINT:GOTO 470
+520 PRINT:p$=ask$:ask$="Pardon ?":GOSUB 570:ask$=p$:PRINT:PRINT:GOTO 480
+530 GOSUB 550
+540 RETURN
+550 L=LEN(cheat$):FOR t=1 TO L STEP 2:t$=MID$(cheat$,t,2):p=VAL("&"+t$)
+560 POKE i,p:i=i+1:NEXT:RETURN
+570 FOR x=1 TO LEN(ask$):PRINT MID$(ask$,x,1);" ";:SOUND 1,ASC(MID$(ask$,x,1))+100,1:SOUND 2,ASC(MID$(ask$,x,1))+200,1:NEXT:PRINT" ";:RETURN
+580 L=LEN(cheat$):FOR t=1 TO L STEP 2:t$=MID$(cheat$,t,2):p=VAL("&"+t$)
+590 POKE i,p:i=i+1:NEXT:RETURN
+600 DATA F3,31,F8,BF,01,C0,7F,ED,49,CD,37,BD,06,00,11,40,00,CD,77,BC,EB,CD
+610 DATA 83,BC,E5,CD,7A,BC,21,37,BD,11,3A,BD,01,03,00,ED,B0,3E,C3,21,B9,BE
+620 DATA 32,37,BD,22,38,BD,21,FF,AB,11,40,00,C9,CD,3A,BD
+630 DATA Do You Wish To Stop The Clock,3EA7325065
+640 DATA Do You Require Infinite Lives,AF32EE1B3E1832EF1B
+650 DATA 54321,C9
