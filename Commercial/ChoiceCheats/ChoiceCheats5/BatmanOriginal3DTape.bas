@@ -27,8 +27,7 @@
 36 t=t-LEN(b$)
 37 GOSUB 39:PRINT
 38 c$="":GOTO 26
-39 FOR x=1 TO LEN(c$):PRINT MID$(c$,x,1);CHR$(24);" ";CHR$(24);CHR$(8);:SOUND 1,ASC(MID$(c$,x,1))+100,1:SOUND 2,ASC(MID$(c$,x,1))+20
-0,1:NEXT:PAPER 0:PRINT" ":RETURN
+39 FOR x=1 TO LEN(c$):PRINT MID$(c$,x,1);CHR$(24);" ";CHR$(24);CHR$(8);:SOUND 1,ASC(MID$(c$,x,1))+100,1:SOUND 2,ASC(MID$(c$,x,1))+200,1:NEXT:PAPER 0:PRINT" ":RETURN
 40 ' Place Instruction Data
 41 DATA "BATMAN (ORIGINAL 3D) - Cheat Mode"
 42 DATA "(C) 1990 1st Choice Software."
