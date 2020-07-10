@@ -1,0 +1,327 @@
+;
+hacki    DEFW 0
+hackit
+         LD   hl,(naddress)
+         INC  hl
+         LD   e,(hl)
+         INC  hl
+         LD   d,(hl)
+         EX   de,hl
+         LD   bc,#29
+         ADD  hl,bc
+         LD   (hacki),hl
+hack1
+         LD   hl,(hacki)
+         INC  hl
+         LD   (hacki),hl
+         LD   a,(hl)
+         CP   #21
+         JR   nz,hack1
+         INC  hl
+         INC  hl
+         INC  hl
+         LD   a,(hl)
+         CP   #e
+         JR   nz,hack1
+         INC  hl
+         LD   a,(hl)
+         CP   #ff
+         JR   nz,hack1
+         INC  hl
+         LD   a,(hl)
+         CP   #d5
+         JR   nz,hack1
+         INC  hl
+         LD   a,(hl)
+         CP   #c9
+         JR   nz,hack1
+         LD   hl,(hacki)
+         INC  hl
+         LD   e,(hl)
+         INC  hl
+         LD   d,(hl)
+         EX   de,hl
+         LD   (hacki),hl                ; Execution Address Is Now In Hacki
+         LD   (e1),hl
+pshsppop
+         LD   hl,(e1)
+         INC  hl
+         LD   (e1),hl
+         LD   a,(hl)
+         CP   #e1
+         JR   nz,pshsppop
+         INC  hl
+         LD   a,(hl)
+         CP   #31
+         JR   nz,pshsppop
+         INC  hl
+         LD   a,(hl)
+         CP   #f8
+         JR   nz,pshsppop
+         INC  hl
+         LD   a,(hl)
+         CP   #bf
+         JR   nz,pshsppop
+         INC  hl
+         LD   a,(hl)
+         CP   #e5
+         JR   nz,pshsppop
+eiret                                   ; Command That Finally Executes The Gam
+         LD   hl,(e1)
+         INC  hl
+         LD   (e1),hl
+         LD   a,(hl)
+         CP   #fb
+         JR   z,eiret1
+         CP   #f3
+         JR   z,eiret1
+         CP   #cd
+         JR   nz,eiret
+         INC  hl
+         LD   a,(hl)
+         CP   9
+         JR   z,call1
+         CP   3
+         JR   nz,eiret
+call1                                   ; Is There A Call To #b909/3 & Ret ?
+         INC  hl
+         LD   a,(hl)
+         CP   #b9
+         JR   nz,eiret
+         INC  hl
+         LD   a,(hl)
+         CP   #c9
+         JR   nz,eiret
+         LD   (e1),hl
+         JR   call2
+eiret1
+         INC  hl
+         LD   a,(hl)
+         CP   #c9
+         JR   nz,eiret
+call2
+         LD   hl,(e1)
+         LD   (hl),#f7
+         LD   hl,runit
+         LD   de,#b000
+         LD   bc,#50
+         LDIR 
+         JP   #b000
+runit
+         DI   
+         LD   sp,#c000
+         LD   hl,(hacki)
+         PUSH hl
+         LD   hl,(laddress)
+         LD   de,#3d0
+         ADD  hl,de
+         PUSH hl
+         POP  bc
+         LD   hl,#40
+         LD   de,#41
+         LD   (hl),0
+         LDIR 
+         LD   hl,(#bd17)
+         LD   a,h
+         AND  #3f
+         LD   h,a
+         EX   de,hl
+         POP  hl
+         LD   (#b03f),hl
+         LD   hl,#b033
+         PUSH de
+         LD   bc,#7f8b
+         OUT  (c),c
+         LD   c,#ff
+         RET  
+hello
+         LD   hl,#30
+         LD   (hl),#c3
+         INC  hl
+         LD   (hl),#00
+         INC  hl
+         LD   (hl),#be
+jump     JP   0
+e1       DEFW 0
+getlen                                  ; Get Program Start And Length
+         LD   hl,#3f
+upl
+         INC  hl
+         LD   a,(hl)
+         OR   a
+         JR   z,upl
+         LD   (gs+1),hl
+         LD   de,#b000
+downl
+         DEC  de
+         LD   a,(de)
+         OR   a
+         JR   z,downl
+         LD   a,d
+         CP   #a7
+         JR   c,downl1
+         XOR  a
+         DEC  a                         ; LD A #FF
+         LD   (bigk),a                  ; Is It A Lot Of K ?
+         LD   de,#a001
+dl1
+         DEC  de
+         LD   a,(de)
+         OR   a
+         JR   z,dl1
+         EX   de,hl
+         AND  a
+         SBC  hl,de
+         INC  hl
+         LD   (gl+1),hl
+         LD   hl,#a000
+         LD   de,#c000
+         LD   bc,#1e80
+         LDIR 
+         JP   #be80
+downl1
+         EX   de,hl
+         AND  a
+         SBC  hl,de
+         INC  hl
+         LD   (gl+1),hl
+         JP   #be80
+tapedisk
+         ORG  #be80
+         DI   
+         POP  hl
+         POP  hl
+         LD   sp,#c000
+         PUSH hl
+         CALL #b903
+         CALL #b909
+         LD   hl,loader
+         LD   de,#b050
+         LD   bc,#100-#50
+         LDIR 
+         LD   a,(bigk)
+         OR   a
+         JR   nz,sv
+         LD   hl,0
+         LD   (cold),hl
+sv
+         LD   hl,filename
+         LD   de,file
+         LD   bc,8
+         LDIR 
+         LD   a,#30
+         LD   (file+9),a
+         CALL #bc11
+         LD   (mode),a
+         CALL #bc3b
+         LD   a,b
+         LD   (border),a
+         LD   ix,inks
+         XOR  a
+getink
+         PUSH af
+         CALL #bc35
+         LD   (ix+0),b
+         POP  af
+         INC  ix
+         INC  a
+         AND  #f
+         JR   nz,getink
+         LD   hl,#abff
+         LD   de,#40
+         LD   c,7
+         CALL #bcce
+         LD   hl,#b050
+         LD   de,#100-#50
+         LD   b,8
+         CALL save
+         POP  hl
+         LD   (exe+1),hl
+         LD   hl,filename+9
+         LD   (hl),#30
+         LD   hl,#c000
+         LD   de,#4000
+         LD   b,len
+         CALL save
+gs       LD   hl,0
+gl       LD   de,0
+         LD   b,len
+         CALL save
+         RST  0
+save
+         PUSH hl
+         PUSH de
+         LD   hl,fnext
+         INC  (hl)
+         LD   hl,filename
+         LD   de,#c000
+         CALL #bc8c
+         POP  de
+         POP  hl
+exe      LD   bc,#b050
+         LD   a,2
+         CALL #bc98
+         JP   #bc8f
+filename DEFS 8,32
+         DEFM .
+fnext    DEFB #1f,32,32
+len      EQU  $-filename
+bigk     DEFB 0
+loader
+         ORG  #b050
+         LD   sp,#c000
+         LD   hl,#abff
+         LD   de,#40
+         LD   c,7
+         CALL #bcce
+         LD   a,(mode)
+         CALL #bc0e
+         LD   a,(border)
+         LD   b,a
+         LD   c,b
+         CALL #bc38
+         LD   ix,inks
+         XOR  a
+set
+         PUSH af
+         LD   b,(ix+0)
+         LD   c,b
+         CALL #bc32
+         INC  ix
+         POP  af
+         INC  a
+         AND  #f
+         JR   nz,set
+         CALL load
+         CALL load
+         LD   hl,copy
+         LD   de,#be80
+         LD   bc,#50
+         LDIR 
+gex      LD   hl,0
+         JP   #be80
+copy
+         DI   
+         PUSH hl
+         LD   hl,#c000
+         LD   de,#a000
+         LD   bc,#1e80
+cold     LDIR 
+         RET  
+load
+         LD   hl,filee
+         INC  (hl)
+         LD   hl,file
+         LD   b,len
+         LD   de,#c000
+         CALL #bc77
+         EX   de,hl
+         CALL #bc83
+         LD   (gex+1),hl
+         JP   #bc7a
+file     DEFS 8,32
+         DEFM .
+filee    DEFM 0  
+mode     DEFB 0
+border   DEFB 0
+inks     DEFS 16,0
