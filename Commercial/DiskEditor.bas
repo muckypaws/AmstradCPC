@@ -1,0 +1,283 @@
+10 nb=21:DIM b$(nb)
+20 MEMORY &39FF
+30 KEY 10,"mode 2:pen 1:paper 0"+CHR$(13)
+40 MODE 2:INK 0,13:INK 1,0:BORDER 10
+50 GOSUB 1000:IF PEEK(&A000)<>195 THEN LOAD "crazy.cmd
+60 IF PEEK(30000)<>24 THEN LOAD "mona31.bin",30000
+100 WINDOW #5,2,33,2,12
+110 WINDOW #6,35,58,2,6
+120 WINDOW #7,35,58,8,12
+130 WINDOW #1,35,58,14,21
+140 WINDOW #2,35,58,23,24
+150 WINDOW #4,60,79,2,24
+160 WINDOW #0,2,33,14,16
+170 WINDOW #3,2,33,18,24:CLS#3:WINDOW #3,3,32,19,23:CLS#3
+200 '
+210 DATA "    ė   STATE 0  ė",Inter.code,Seek end,Equip.check,Not ready,Head adress,Unit select
+220 DATA "    ė   STATE 1  ė",End of Track,Data error1,Over run,No Data,Non Writable,Missing Adr.Mark1
+230 DATA "    ė   STATE 2  ė",Control mark,Data error2,Wrong Cylinder,Scan equal hit,Scan fail,Bad cylinder,Missing Adr.Mark2    
+300 GOSUB 5000:GOSUB 4000:GOSUB 3000:GOSUB 5020:GOSUB 6000:GOSUB 7000:GOSUB 8000:GOSUB 9000:GOSUB 10000
+400 DATA Start motor,Go to track i,Following track,Preceeding track,Track analysis,Sector Order,Change format,Format track,Init. formatting data,change formatting data,Change sector numbers
+410 DATA Init. FDC data,Change FDC data,Sector order,Read sector,Read erased sect.,Write sector,Write erased sect.,Go to dump,Quit,Stop motor
+500 RESTORE 400:FOR i=1 TO nb:READ b$(i):NEXT
+510 GOSUB 11000
+520 a$=INKEY$:IF A$="" THEN 520
+530 IF ASC(A$)=240 THEN GOSUB 13000
+540 IF ASC(A$)=241 THEN GOSUB 12000  
+550 IF ASC(A$)=13 THEN 2000
+560 GOTO 520
+1000 fdcin=&A000
+1010 result=&A003
+1020 info=&A006
+1030 format=&A009
+1040 lectu=&A00C
+1050 ecris=&A00F
+1060 calibr=&A012
+1070 startm=&A015
+1080 STOPm=&A018
+1090 endrt=&A0B1
+1100 param=&A0A0
+1110 RETURN
+2000 ON opos GOSUB 38000,20000,21000,22000,23000,25000,27000,24000,35000,36000,26000,34000,32000,25000,28000,30000,29000,31000,33000
+,37000,39000
+2010 GOTO 520
+3000 CLS#6
+3010 PRINT#6,"   ė RESULTS PHASE  ė" 
+3020 PRINT#6," track number      : ";HEX$(PEEK(&A023),2)
+3030 PRINT#6," head address      : ";HEX$(PEEK(&A024),2)
+3040 PRINT#6," sector number     : ";HEX$(PEEK(&A025),2) 
+3050 PRINT#6," sector length     : ";HEX$(PEEK(&A026),2) 
+3060 RETURN  
+4000 WINDOW #4,60,79,2,24:CLS#4:RESTORE 210:FOR I=0 TO 21:READ a$:PRINT#4,a$:NEXT:WINDOW#4,77,77,3,24:CLS#4:PRINT#4,":::::: :::::: :::::::":WINDOW#4,78,78,3,24:CLS#4   
+4010 RETURN
+5000 WINDOW #0,1,80,1,25:PEN 0:PAPER 1:CLS:PEN 1:PAPER 0  
+5010 WINDOW #0,2,33,14,16:RETURN
+5020 PAPER #7,0:CLS#7:WINDOW#7,37,56,9,11:PEN #7,0:PAPER #7,1:CLS #7
+5030 PRINT#7,"     Crazy v 3.0"
+5040 PRINT#7,"    copyright 1986
+5050 PRINT#7,"   Pascal Belloncle";
+5060 RETURN 
+6000 CLS #5:PRINT#5,"      ė Analysis of track  ė"
+6010 FOR i=1 TO PEEK(&A0AF) STEP 2
+6020 PRINT #5,USING "##";i; 
+6030 PRINT#5," ";HEX$(PEEK(&3A00+(i-1)*4),2); 
+6040 PRINT #5," ";HEX$(PEEK(&3A01+(i-1)*4),2);
+6050 PRINT#5," ";HEX$(PEEK(&3A02+(i-1)*4),2); 
+6060 PRINT#5," ";HEX$(PEEK(&3A03+(i-1)*4),2);"   ";  
+6070 IF i>=PEEK(&A0AF) THEN 6130
+6080 PRINT #5,USING "##";i+1;      
+6090 PRINT#5," ";HEX$(PEEK(&3A00+(i)*4),2); 
+6100 PRINT#5," ";HEX$(PEEK(&3A01+(i)*4),2);  
+6110 PRINT#5," ";HEX$(PEEK(&3A02+(i)*4),2);
+6120 PRINT#5," ";HEX$(PEEK(&3A03+(i)*4),2) 
+6130 NEXT i
+6140 RETURN
+7000 CLS #1
+7010 PRINT#1,"     ė  FDC  DATA  ė"  
+7020 PRINT#1," track number      : ";HEX$(PEEK(&3F10),2)  
+7030 PRINT#1," head number       : ";HEX$(PEEK(&3F11),2)   
+7040 PRINT#1," sector number     : ";HEX$(PEEK(&3F12),2)  
+7050 PRINT#1," sector length     : ";HEX$(PEEK(&3F13),2)   
+7060 PRINT#1," last number       : ";HEX$(PEEK(&3F14),2)  
+7070 PRINT#1," GAP #3            : ";HEX$(PEEK(&3F15),2)   
+7080 PRINT#1," length            : ";HEX$(PEEK(&3F16),2)   
+7090 RETURN
+8000 CLS#4:a=PEEK(&A020)
+8010 a$=BIN$(a,8):a$=RIGHT$(a$,6):a$=LEFT$(a$,4)
+8020 a$=a$+"1 ":a$=RIGHT$(STR$(INT(a/64)),1)+a$:PRINT#4,a$;
+8030 a$=BIN$(PEEK(&A021),8):a$=LEFT$(a$,1)+MID$(a$,3,2)+RIGHT$(a$,3)
+8040 PRINT#4,a$;" ";
+8050 a$=BIN$(PEEK(&A022),8)
+8060 a$=RIGHT$(a$,7)
+8070 PRINT#4,a$
+8080 RETURN
+9000 CLS#2:PRINT#2," Track number   : ";PEEK(&A0AB)  
+9010 PRINT#2," Bytes read      :";bflen
+9020 RETURN
+10000 CLS #0
+10010 PRINT#0,"      ė  FORMATTING DATA  ė
+10020 PRINT#0," Sec. length:";HEX$(PEEK(&3F00),2);" Sec. Number :";HEX$(PEEK(&3F01),2)  
+10030 PRINT#0," GAP #3     :";HEX$(PEEK(&3F02),2);" Data        :";HEX$(PEEK(&3F03),2) 
+10040 RETURN
+11000 WINDOW #3,2,33,18,24:CLS#3:WINDOW #3,3,32,19,23:CLS#3
+11010 IF opos<>0 THEN 11500
+11020 FOR i=nb-1 TO nb:PRINT#3," ";b$(i):NEXT
+11030 PRINT#3,"ė ";b$(1);" ė"
+11040 FOR i=2 TO 3:PRINT#3," ";b$(i):NEXT
+11050 opos=1
+11060 RETURN
+11500 '
+11510 CLS #3
+11520 IF opos-2>0 THEN PRINT#3," ";b$(opos-2) ELSE PRINT#3," ";b$(opos-2+nb)
+11530 IF opos-1>0 THEN PRINT#3," ";b$(opos-1) ELSE PRINT#3," ";b$(opos-1+nb)
+11540 PRINT#3,"ė ";b$(opos);" ė"
+11550 IF opos+1<nb THEN PRINT#3," ";b$(opos+1) ELSE PRINT#3," ";b$(opos+1-nb)
+11560 IF opos+2<nb THEN PRINT#3," ";b$(opos+2) ELSE PRINT#3," ";b$(opos+2-nb)
+11570 RETURN
+12000 'I=i+1
+12010 IF oPOS=nb THEN npos=1 ELSE npos=oPOS+1
+12020 LOCATE#3,1,3:PRINT#3," ";b$(oPOS);" "
+12030 LOCATE #3,30,5:PRINT#3
+12040 IF opos+3>nb THEN PRINT#3," ";b$(opos-nb+3) ELSE PRINT#3," ";b$(opos+3)
+12050 LOCATE#3,1,3:PRINT#3,"ė ";b$(npos);" ė"
+12060 opos=npos
+12070 RETURN
+13000 i=i-1
+13010 IF opos=1 THEN npos=nb ELSE npos=opos-1
+13020 LOCATE#3,1,3:PRINT#3," ";b$(oPOS);" "
+13030 LOCATE #3,1,1:PRINT#3,"Ċ ";
+13040 IF opos-3<1 THEN PRINT#3,b$(opos+nb-3)ELSE PRINT#3,b$(opos-3)
+13050 LOCATE#3,1,3:PRINT#3,"ė ";b$(npos);" ė"
+13060 opos=npos:RETURN   
+20000 'aller en piste i
+20010 CLS #3
+20020 INPUT #3,"Track Number    : ",track
+20030 IF track<0 OR track>42 THEN 20010
+20040 POKE &A0AB,track
+20050 CALL calibr
+20060 GOSUB 9000
+20070 GOSUB 11000
+20080 RETURN
+21000 'Piste suivante
+21010 IF track=42 THEN track=0 ELSE track=track+1
+21020 GOTO 20040
+21030 RETURN
+22000 'Piste precedente
+22010 IF track=0 THEN track=42 ELSE track=track-1
+22020 GOTO 20040
+22030 RETURN
+23000 'Analyse de la piste
+23010 CALL info
+23020 GOSUB 6000
+23030 POKE &3F00,PEEK(&3A03):POKE &3F01,PEEK(&A0AF) 
+23040 GOSUB 10000
+23050 POKE &3F10,PEEK(&3A00)  
+23060 POKE &3F11,PEEK(&3A01)
+23070 POKE &3F12,PEEK(&3A02)
+23080 POKE &3F13,PEEK(&3A03)
+23090 GOSUB 7000
+23100 RETURN
+24000 'Formater la piste
+24010 POKE param,PEEK(&3F03) 
+24020 POKE param+1,PEEK(&3F00)
+24030 POKE param+2,PEEK(&3F01)   
+24040 POKE param+3,PEEK(&3F02)
+24050 POKE endrt,0
+24060 POKE endrt+1,&3A
+24070 CALL format
+24080 bflen=256*(PEEK(endrt+1)-&3A)+PEEK(endrt)
+24090 GOSUB 3000:GOSUB 8000:GOSUB 9000
+24100 RETURN
+25000 'Ordre des secteurs
+25010 FOR i=0 TO 3:a(i)=PEEK(&3A00+i):NEXT
+25020 FOR i=1 TO PEEK(&A0AF)-1
+25030 POKE &3A00+(i-1)*4,PEEK(&3A00+i*4)
+25040 POKE &3A01+(i-1)*4,PEEK(&3A01+i*4)     
+25050 POKE &3A02+(i-1)*4,PEEK(&3A02+i*4)
+25060 POKE &3A03+(i-1)*4,PEEK(&3A03+i*4)
+25070 NEXT
+25080 FOR i=0 TO 3:POKE &3A00+i+(PEEK(&A0AF)-1)*4,a(i):NEXT
+25090 :GOSUB 6000:RETURN
+26000 'nb de secteurs
+26010 CLS #3:INPUT#3,"ĈNumber of sectors  : ",i
+26020 IF i<21 THEN POKE &A0AF,i:POKE &3F01,i
+26030 GOSUB 10000:GOSUB 6000:GOSUB 11000
+26040 RETURN
+27000 'Changer le formatage
+27010 FOR i=1 TO PEEK(&A0AF) STEP 2
+27020 FOR j=0 TO 3
+27030 LOCATE#5,4+j*3,2+(i-1)/2
+27040 INPUT #5,"",a$
+27050 IF a$<>"" THEN POKE &3A00+(i-1)*4+j,VAL("&"+a$)
+27060 NEXT j
+27070 IF i>=PEEK(&A0AF) THEN 27130
+27080 FOR j=0 TO 3
+27090 LOCATE#5,21+j*3,2+(i-1)/2
+27100 INPUT #5,"",a$
+27110 IF a$<>"" THEN POKE &3A00+i*4+j,VAL("&"+a$) 
+27120 NEXT j
+27130 NEXT i
+27140 GOSUB 6000
+27150 RETURN
+28000 'Lire le secteur
+28010 FOR i=0 TO 6:POKE &A0A0+i,PEEK(&3F10+i):NEXT i
+28020 POKE endrt,0:POKE endrt+1,&40
+28030 CALL lectu
+28040 bflen=256*(PEEK(endrt+1)-&40)+PEEK(endrt)  
+28050 GOSUB 3000:GOSUB 8000:GOSUB 9000
+28060 RETURN   
+29000 'Ecrire le secteur
+29010 FOR i=0 TO 6
+29020 POKE &A0A0+i,PEEK(&3F10+i)   
+29030 NEXT i
+29040 POKE endrt,0
+29050 POKE endrt+1,&40
+29060 CALL ecris
+29070 bflen=256*(PEEK(endrt+1)-&40)+PEEK(endrt)
+29080 GOSUB 3000:GOSUB 8000:GOSUB 9000 
+29090 RETURN
+30000 'lecure efface 
+30010 POKE &A1A8,&4C:GOSUB 28000:POKE &A1A8,&46:RETURN
+31000 'ecris efface
+31010 POKE &A1E6,&49:GOSUB 29000:POKE &A1E6,&45:RETURN
+32000 'Changer donees FDC
+32010 CLS#3
+32020 INPUT#3,"track number      :",a$
+32030 IF a$<>"" THEN POKE &3F10,VAL("&"+a$)  
+32040 INPUT#3,"head number       :",a$
+32050 IF a$<>"" THEN POKE &3F11,VAL("&"+a$) 
+32060 INPUT#3,"sector number     :",a$
+32070 IF a$<>"" THEN POKE &3F12,VAL("&"+a$)  
+32080 INPUT#3,"sector length     :",a$
+32090 IF a$<>"" THEN POKE &3F13,VAL("&"+a$)  
+32100 INPUT#3,"last number       :",a$
+32110 IF a$<>"" THEN POKE &3F14,VAL("&"+a$) 
+32120 INPUT#3,"GAP #3            :",a$
+32130 IF a$<>"" THEN POKE &3F15,VAL("&"+a$)   
+32140 INPUT#3,"length            :",a$
+32150 IF a$<>"" THEN POKE &3F16,VAL("&"+a$)  
+32160 GOSUB 7000
+32170 GOSUB 11000
+32180 RETURN
+33000 'Passage au dump
+33010 CALL 30000,0,30000,HIMEM
+33020 MODE 2
+33030 GOTO 100
+33040 RETURN
+34000 'Init. donnees FDC
+34010 POKE &3F10,PEEK(&3A00)  
+34020 POKE &3F11,PEEK(&3A01)    
+34030 POKE &3F12,PEEK(&3A02)   
+34040 POKE &3F13,PEEK(&3A03)    
+34050 POKE &3F14,PEEK(&3A02)     
+34060 POKE &3F15,&2A    
+34070 POKE &3F16,&FF   
+34080 GOSUB 7000
+34090 RETURN
+35000 'Init donnees formatage
+35010 POKE &3F02,&52:POKE &3F03,&E5  
+35020 GOSUB 10000
+35030 RETURN
+36000 'changer donnees formatage
+36010 CLS#3
+36020 INPUT#3,"length          :",a$
+36030 IF a$<>"" THEN POKE &3F00,VAL("&"+a$) 
+36040 INPUT#3,"sector number   :",a$
+36050 IF a$<>"" AND VAL("&0"+a$)<21 THEN POKE &3F01,VAL("&"+a$):POKE &A0AF,VAL("&"+a$)
+36060 INPUT#3,"GAP #3          :",a$
+36070 IF a$<>"" THEN POKE &3F02,VAL("&"+a$) 
+36080 INPUT#3,"data            :",a$
+36090 IF a$<>"" THEN POKE &3F03,VAL("&"+a$)  
+36100 GOSUB 10000:GOSUB 6000
+36110 GOSUB 11000
+36120 RETURN
+37000 'Arret
+37010 OUT &FA7E,0
+37020 MODE 2:END
+37030 RETURN
+38000 'Demarrage moteur
+38010 CALL startm
+38020 RETURN
+39000 'Arret moteur  
+39010 CALL stopm
+39020 RETURN
