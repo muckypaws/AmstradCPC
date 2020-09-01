@@ -115,7 +115,7 @@ function cutLogs {
 	checkFaultyTrackRead=`cat $LOGFILE | grep -i "track:00:0" | cut -d":" -f 5`
 	checkLen=${#checkFaultyTrackRead}
 	
-	if [ $checkLen < 5 ] ; then
+	if [ $checkLen -le 5 ] ; then
 		echo 
 		read -p "Failed to correctly Read Track 0 - Try Again?" runAgain
 		
