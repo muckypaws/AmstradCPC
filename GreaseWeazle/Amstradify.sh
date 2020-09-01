@@ -41,7 +41,7 @@ else
 	chrlen=${#side}
 	if [ $chrlen -eq 1 ] ; then
 		#side = ${side^}			# ensure first char is upper case
-		side=$( tr '[A-Z' '[a-z]' <<< $side )
+		side=$( tr '[a-z]' '[A-Z]' <<< $side )
 	fi
 	sourcefile="./scp/"$filename"_Side$side.scp"
 	destfile="./cpc/"$filename"_Side$side.dsk"
@@ -121,7 +121,7 @@ function cutLogs {
 		
 		chrlen=${#runAgain}
 		if [ $chrlen -eq 1] ; then
-			runAgain=$( tr '[A-Z' '[a-z]' <<< $runAgain )
+			runAgain=$( tr '[a-z]' '[A-Z]' <<< $runAgain )
 			if [runAgain == "y" || runAgain == "y"]; then runTheConversionCommands
 			fi
 		fi
@@ -169,7 +169,7 @@ function runTheConversionCommands {
 
 carryon="y"
 
-while ( [ $carryon == "y" ] || [ $carryon == "Y" ] )
+while ( ! [ -z $carryon ] && ( [ $carryon == "y" ] || [ $carryon == "Y" ] ) )
 do
 	Welcome
 	echo "Using: $sourcefile to write to $destfile"
