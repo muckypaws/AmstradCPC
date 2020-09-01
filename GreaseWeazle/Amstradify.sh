@@ -79,6 +79,17 @@ function convertToAmstrad {
 	showLogs
 }
 
+#
+#   Simple Script to run the Conversion Script
+#
+function runTheConversionCommands {
+	sendToTrackZero
+	readPhysical
+	sendToTrackZero
+	convertToAmstrad
+	blankLines
+}
+
 
 #
 #    Check Log Files and write Appropriate option
@@ -109,7 +120,7 @@ function cutLogs {
 	echo
 	cat $LOGFILE | awk -F: '/track:/ { \
 							if (length($5) > 1) \
-							{print $1,":", $2,":", $5, length($5)} \
+							{print $1,":", $2,":", $5 } \
 	}'
 	
 	checkFaultyTrackRead=`cat $LOGFILE | grep -i "track:00:0" | cut -d":" -f 5`
@@ -117,12 +128,12 @@ function cutLogs {
 	
 	if [ $checkLen -le 5 ] ; then
 		echo 
-		read -p "Failed to correctly Read Track 0 - Try Again?" runAgain
+		read -p "Failed to correctly Read Track 0 - Try Again? " runAgain
 		
 		chrlen=${#runAgain}
-		if [ $chrlen -eq 1] ; then
+		if [ $chrlen -eq 1 ] ; then
 			runAgain=$( tr '[a-z]' '[A-Z]' <<< $runAgain )
-			if [runAgain == "y" || runAgain == "y"]; then runTheConversionCommands
+			if [ $runAgain == "y" ] || [ $runAgain == "Y" ]; then runTheConversionCommands
 			fi
 		fi
 	fi	
@@ -152,16 +163,7 @@ function sendToTrackZero {
 	fi
 }
 
-#
-#   Simple Script to run the Conversion Script
-#
-function runTheConversionCommands {
-	sendToTrackZero
-	readPhysical
-	sendToTrackZero
-	convertToAmstrad
-	blankLines
-}
+
 
 #
 #	The Start of the Script Main()
