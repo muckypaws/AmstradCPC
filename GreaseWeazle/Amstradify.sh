@@ -12,6 +12,8 @@ GWZ=./GreaseWeazle
 HXC=./hxcfe_cmdline/App/hxcfe
 DUMMYTRACK0=./scp/deleteme.scp
 LOGFILE=./scp/log.txt
+REVS=3
+TRACKS=41
 filename=""
 
 function blankLines {
@@ -22,7 +24,7 @@ function blankLines {
 function Welcome {
 
 clear
-echo "Welcome To Amstradify Script V1.0"
+echo "Welcome To Amstradify Script V1.01"
 echo 
 echo 
 echo "Ensure your GreaseWeazle is connected and powered on	"
@@ -45,6 +47,7 @@ else
 	fi
 	sourcefile="./scp/"$filename"_Side$side.scp"
 	destfile="./cpc/"$filename"_Side$side.dsk"
+	
 fi
 }
 
@@ -55,9 +58,9 @@ fi
 function readPhysical {
 	echo "Attempting to Read Disk: $filename"
 	blankLines
-	./GreaseWeazle/gw read --revs=5 \
+	$GWZ/gw read --revs=$REVS \
 						   --drive B \
-						   --ecyl=41 \
+						   --ecyl=$TRACKS \
 						   --single-sided \
 						   $sourcefile 
 }
@@ -150,7 +153,7 @@ function sendToTrackZero {
 	echo
 			   
 	# Grease Weazle Read Command (5 Revolutions, Cylinder 0)					   
-	./GreaseWeazle/gw read --revs=5 \
+	$GWZ/gw read --revs=$REVS \
 						   --drive B \
 						   --ecyl=0 \
 						   --single-sided \
@@ -163,17 +166,8 @@ function sendToTrackZero {
 	fi
 }
 
+function startTheConversion {
 
-
-#
-#	The Start of the Script Main()
-#
-
-carryon="y"
-
-while ( ! [ -z $carryon ] && ( [ $carryon == "y" ] || [ $carryon == "Y" ] ) )
-do
-	Welcome
 	echo "Using: $sourcefile to write to $destfile"
 	echo
 	echo
@@ -184,5 +178,39 @@ do
 	echo
 	read -p "Convert Another Disk? (y/n) : " carryon
 	carryon=$(printf '%s' "$carryon" | cut -c1)
+
+}
+
+#
+#	The Start of the Script Main()
+#
+
+$GWZ/gw delays --step 17000 --motor 500
+
+
+carryon="y"
+
+while ( ! [ -z $carryon ] && ( [ $carryon == "y" ] || [ $carryon == "Y" ] ) )
+do
+	Welcome
+	
+	if [ -f $sourcefile ] ; then
+		echo 
+		echo "**** $sourcefile Already Exists!!!"
+		echo
+		read -p "Do you Really Want to Continue? (y/n): " doublecheck
+		
+		doublecheck=$( tr '[a-z]' '[A-Z]' <<< $doublecheck )
+		
+		echo $doublecheck
+		
+		if [ $doublecheck == "Y" ] ; then
+		 	startTheConversion
+		fi
+		
+	else
+		startTheConversion
+	fi
+
 done
 
