@@ -1,0 +1,23 @@
+         ORG  #a000
+start
+         ENT  $
+         LD   (mbc),bc
+         LD   (mde),de
+         LD   (mhl),hl
+         LD   (msp),sp			; Store Registers
+         PUSH af
+         PUSH hl				; Preserve AF and HL
+         PUSH af
+         POP  hl				; HL = AF 
+         LD   (maf),hl			; Store AF Register
+         POP  hl
+         POP  af				; Restore HL and AF
+         LD   bc,#7fc4
+         OUT  (c),c				; Switch in ADAM
+         JP   #4000				; Jump Back to ADAM
+;
+mhl      DEFW 0
+mde      DEFW 0
+mbc      DEFW 0
+maf      DEFW 0
+msp      DEFW 0
