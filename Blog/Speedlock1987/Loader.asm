@@ -40,6 +40,6 @@ load
          EX   de,hl
          CALL #bc83
          JP   #bc7a
-fname    DEFM DIZZY1.BIN
+fname    DEFM DIZZY0.BIN
 fnamel   EQU  $-fname
 inks     DEFB 0,26,6,18

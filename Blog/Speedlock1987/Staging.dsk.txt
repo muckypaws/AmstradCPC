@@ -1,0 +1,21 @@
+Directory of Staging.dsk:
+
+-------------------------------------------
+ADAM    .BAS -      1K -    |    - User:  0
+ADAM    .BIN -     12K -    |    - User:  0
+DIZZY   .BIN -      1K -    |    - User:  0
+DIZZY1  .BIN -     17K -    |    - User:  0
+DIZZY2  .BIN -     40K -    |    - User:  0
+FIRSTLD .ADM -      1K -    |    - User:  0
+GETDEC1 .ADM -      1K -    |    - User:  0
+GETDEC1A.ADM -      1K -    |    - User:  0
+GETDEC2 .ADM -      1K -    |    - User:  0
+GETDEC2A.ADM -      1K -    |    - User:  0
+GETDEC2A.BAK -      1K -    |    - User:  0
+GETFIRST.ADM -      1K -    |    - User:  0
+RSX     .ADM -      3K -    |    - User:  0
+RSX     .BIN -      1K -    |    - User:  0
+
+-------------------------------------------
+
+96K free
