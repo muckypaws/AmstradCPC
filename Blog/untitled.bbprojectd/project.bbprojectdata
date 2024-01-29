@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>HierarchyData</key>
+	<array>
+		<string>5DA7DE0B-3495-4D0F-8F85-BE4892EAD7A5</string>
+	</array>
+	<key>ProjectItems</key>
+	<dict>
+		<key>5DA7DE0B-3495-4D0F-8F85-BE4892EAD7A5</key>
+		<dict>
+			<key>ItemData</key>
+			<dict>
+				<key>BookmarkData</key>
+				<data>
+				Ym9vazwDAAAAAAQQMAAAAHU63ezU1+DH5xmJRYF/I4T9
+				Q6dNe+afWwm3D3ebBPUCOAIAAAQAAAADAwAAAAgAKAUA
+				AAABAQAAVXNlcnMAAAAFAAAAAQEAAGphc29uAAAACQAA
+				AAEBAABEb2N1bWVudHMAAAAKAAAAAQEAAFNvdXJjZUNv
+				ZGUAAAoAAAABAQAAQW1zdHJhZENQQwAABAAAAAEBAABC
+				bG9nDQAAAAEBAABTcGVlZGxvY2sxOTg3AAAAHAAAAAEG
+				AAAQAAAAIAAAADAAAABEAAAAWAAAAGwAAAB4AAAACAAA
+				AAQDAAD7gCwAAAAAAAgAAAAEAwAA/ZosAAAAAAAIAAAA
+				BAMAAFRkNgAAAAAACAAAAAQDAADN+zkAAAAAAAgAAAAE
+				AwAABlMKCwMAAAAIAAAABAMAAGBZCgsDAAAACAAAAAQD
+				AAB9WQoLAwAAABwAAAABBgAAtAAAAMQAAADUAAAA5AAA
+				APQAAAAEAQAAFAEAAAgAAAAABAAAQcWtR0PBLKYYAAAA
+				AQIAAAIAAAAAAAAADwAAAAAAAAAAAAAAAAAAAAgAAAAE
+				AwAABQAAAAAAAAAEAAAAAwMAAPUBAAAIAAAAAQkAAGZp
+				bGU6Ly8vDAAAAAEBAABNYWNpbnRvc2ggSEQIAAAABAMA
+				AAAgRsjWAgAACAAAAAAEAABBxaW34Is5MCQAAAABAQAA
+				OTU1NjQ3NTAtOTU4Ni0zRUQ0LTlBN0YtMTk4MTBFODlF
+				NUFEGAAAAAECAACBAAAAAQAAAO8TAAABAAAAAAAAAAAA
+				AAABAAAAAQEAAC8AAAAAAAAAAQUAAMwAAAD+////AQAA
+				AAAAAAAQAAAABBAAAJAAAAAAAAAABRAAACQBAAAAAAAA
+				EBAAAFgBAAAAAAAAQBAAAEgBAAAAAAAAAiAAACQCAAAA
+				AAAABSAAAJQBAAAAAAAAECAAAKQBAAAAAAAAESAAANgB
+				AAAAAAAAEiAAALgBAAAAAAAAEyAAAMgBAAAAAAAAICAA
+				AAQCAAAAAAAAMCAAADACAAAAAAAAAcAAAHgBAAAAAAAA
+				EcAAACAAAAAAAAAAEsAAAIgBAAAAAAAAENAAAAQAAAAA
+				AAAA
+				</data>
+				<key>FileURL</key>
+				<string>file:///Users/jason/Documents/SourceCode/AmstradCPC/Blog/Speedlock1987/</string>
+				<key>HasSecurityScope</key>
+				<true/>
+				<key>RelativePath</key>
+				<string>./Speedlock1987</string>
+				<key>TypeID</key>
+				<string>_CFileLocator</string>
+				<key>Version</key>
+				<integer>1</integer>
+			</dict>
+			<key>ItemName</key>
+			<string>Speedlock1987</string>
+			<key>ItemType</key>
+			<string>FolderReference</string>
+		</dict>
+	</dict>
+	<key>com.barebones.DocumentFormatVersion</key>
+	<integer>5</integer>
+	<key>com.barebones.DocumentType</key>
+	<string>Project</string>
+</dict>
+</plist>
