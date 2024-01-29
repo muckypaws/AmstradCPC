@@ -1,4 +1,4 @@
-         ORG  #a000
+		 ORG  #a000
 patch1   EQU  #3a76
 patch2   EQU  patch1+1
 start
@@ -32,8 +32,12 @@ buffer   DEFS 3,0
 stakdata DEFW #b9a2,#7f89,#98
 back
          DI   
+         LD   a,back2/256!#fb
+         LD   (#4b),a
+         LD   a,back2&255!#99
+         LD   (#4e),a
          POP  af
-         CALL decode1
+         RET  
 back2
          PUSH bc
          LD   bc,#7fc4
@@ -41,33 +45,4 @@ back2
          POP  bc
          JP   #4000
 adam     EQU  $-2
-;
-; add code here
-decode1
-;
-         LD   hl,back2
-         PUSH hl                        ; Return Control to ADAM Address
-         LD   bc,#1ee
-         LD   de,#bb00
-         LD   hl,#40
-         PUSH hl
-         PUSH bc
-;
-         RRA  
-         LD   R,A
-         POP  BC
-         POP  HL
-         NOP  
-         NOP  
-         NOP  
-         LD   A,I
-         CALL PO,#AC00
-         LD   A,R
-         XOR  (HL)
-         LD   (HL),A
-         LDI  
-         RET  PO
-         DEC  SP
-         DEC  SP
-         RET  PE
 ;

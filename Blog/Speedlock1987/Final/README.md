@@ -10,7 +10,7 @@ RSX.ADM		- Source Code
 RSX.BIN 	- Load into Memory and Call
 
 # First Loader 
-FIRSTLD.ADM
+GETFIRST.ADM
 
 # Source Code to Load the Initial Dizzy Loader
 	Patch the Code and Execute

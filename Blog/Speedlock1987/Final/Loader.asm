@@ -1,25 +1,26 @@
-
          ORG  #be80
 start
          ENT  $
-         LD   hl,#40
-         LD   de,#abff
+         DI   
+         LD   sp,#c000
+         LD   hl,#abff
+         LD   de,#40
          LD   c,7
-         CALL #bcce                     ; init DISK ROM
+         CALL #bcce                     ; Initialise AMSDOS ROM
          LD   a,1
-         CALL #bc0e
+         CALL #bc0e                     ; MODE 1
          LD   bc,0
-         CALL #bc38
+         CALL #bc38                     ; Border 0
 ;
          LD   ix,inks
-         LD   b,4
+         LD   b,4			
          XOR  a
 setinks
          PUSH af
          PUSH bc
          LD   b,(ix+0)
          LD   c,b
-         CALL #bc32
+         CALL #bc32                     ; SET INK 
          POP  bc
          POP  af
          INC  a
@@ -40,6 +41,6 @@ load
          EX   de,hl
          CALL #bc83
          JP   #bc7a
-fname    DEFM DIZZY1.BIN
+fname    DEFM DIZZY0.BIN
 fnamel   EQU  $-fname
 inks     DEFB 0,26,6,18

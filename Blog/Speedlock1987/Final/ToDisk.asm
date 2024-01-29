@@ -82,5 +82,5 @@ save
          LD   a,2
          CALL #bc98
          JP   #bc8f
-fname    DEFM DIZZE0.BIN
+fname    DEFM DIZZY0.BIN
 fnamel   EQU  $-fname

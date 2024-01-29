@@ -3,8 +3,6 @@ patch1   EQU  #3a76
 patch2   EQU  patch1+1
 start
          ENT  $
-         POP  hl
-         LD   (adam),hl
          LD   bc,#7fc0
          OUT  (c),c                     ; Switch out Adam to main memory
          CALL load
@@ -31,41 +29,10 @@ load
 buffer   DEFS 3,0
 stakdata DEFW #b9a2,#7f89,#98
 back
-         DI   
-         POP  af
-         CALL decode1
-back2
          PUSH bc
          LD   bc,#7fc4
          OUT  (c),c
          POP  bc
-         JP   #4000
-adam     EQU  $-2
-;
-; add code here
-decode1
-;
-         LD   bc,#1ee
-         LD   de,#bb00
-         LD   hl,#40
-         PUSH hl
-         PUSH bc
-;
-         RRA  
-         LD   R,A
-         POP  BC
-         POP  HL
-         NOP  
-         NOP  
-         NOP  
-         LD   A,I
-         CALL PO,#AC00
-         LD   A,R
-         XOR  (HL)
-         LD   (HL),A
-         LDI  
-         RET  PO
-         DEC  SP
-         DEC  SP
-         RET  PE
-;
+         POP  af
+         JP   #4000						; ADAM Load Location
+         
